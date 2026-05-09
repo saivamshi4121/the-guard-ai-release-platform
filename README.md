@@ -9,6 +9,15 @@ This repository is structured like internal infrastructure: explicit module boun
 
 ---
 
+### Why this matters
+
+AI systems ship regressions differently than traditional software: the failure mode is often **silent** until users or compliance teams find it. The Guard is built to make release safety **measurable**, **explainable**, and **blockable**:
+- prevent hallucination and grounding regressions from reaching production
+- make localization/channel failures visible quickly (EN vs Telugu; WhatsApp vs Push)
+- turn “model/prompt changes” into a release-engineering workflow with artifacts and audit trails
+
+---
+
 ### Problem statement
 
 Modern software ships behind automated tests, canaries, and CI/CD gates.
@@ -44,6 +53,26 @@ The result is predictable:
 - **Cost vs quality benchmarking**: recommendations based on measured tradeoffs
 - **GitHub Actions release gate**: blocks merges on NO-GO and uploads artifacts
 - **Operational dashboard**: release overview, regression deep-dive, benchmarks, history/timeline
+
+---
+
+### Quickstart (safe demo, no token spend)
+
+```bash
+pnpm -w install
+pnpm -w typecheck
+pnpm -w demo:seed
+
+# Demo replay mode (no live provider calls)
+ENABLE_DEMO_MODE=true pnpm -C apps/runner dev
+
+# Dashboard
+pnpm -C apps/web dev
+```
+
+Demo video: *(add Loom link here)*
+
+Topics (GitHub): `llm-evals`, `ai-infrastructure`, `hallucination-detection`, `ai-observability`, `typescript`, `nextjs`
 
 ---
 
@@ -423,9 +452,9 @@ packages/
 
 ![Release Overview](./docs/screenshots/release-overview.png)
 ![Regression Detail](./docs/screenshots/regression-detail.png)
+![Hallucination Trace Panel](./docs/screenshots/hallucination-traces.png)
 ![Benchmark Dashboard](./docs/screenshots/benchmark-dashboard.png)
-![Hallucination Traces](./docs/screenshots/hallucination-traces.png)
-![Timeline View](./docs/screenshots/timeline-view.png)
+![Release Timeline](./docs/screenshots/timeline-view.png)
 
 ---
 

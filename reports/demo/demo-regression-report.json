@@ -1,0 +1,17 @@
+{
+  "id": "demo-regression-report",
+  "baselineRunId": "demo-baseline",
+  "candidateRunId": "demo-candidate",
+  "createdAt": "2026-05-08T06:28:51.165Z",
+  "comparisons": [],
+  "findings": [],
+  "worstExamples": [],
+  "biggestDrops": [],
+  "decision": {
+    "verdict": "GO",
+    "reasons": [
+      "Demo mode: deterministic pre-seeded report"
+    ],
+    "severity": "LOW"
+  }
+}

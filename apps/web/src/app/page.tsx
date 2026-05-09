@@ -43,55 +43,79 @@ function fmtUsd(n: number): string {
 }
 
 async function loadLiveRunAggregates() {
-  const totalRuns = await (prisma as any).eval_runs.count();
-
-  // Run-level verdict inference:
-  // - NO_GO if any score row has passed=false for that run
-  // - GO if it has any scores and none failed
-  // - UNKNOWN if there are no scores yet
-  const [scoredRuns, noGoRuns, scoreAgg] = await Promise.all([
-    (prisma as any).eval_scores.findMany({ distinct: ["run_id"], select: { run_id: true } }),
-    (prisma as any).eval_scores.findMany({ where: { passed: false }, distinct: ["run_id"], select: { run_id: true } }),
-    (prisma as any).eval_scores.aggregate({ _avg: { value: true } }),
-  ]);
-
-  const scored = new Set<string>(scoredRuns.map((r: any) => r.run_id));
-  const noGo = new Set<string>(noGoRuns.map((r: any) => r.run_id));
-  const goCount = Math.max(0, scored.size - noGo.size);
-  const noGoCount = noGo.size;
-
-  // Hallucination rate: aggregate latest traces to keep page fast.
-  const traces = await (prisma as any).hallucination_traces.findMany({
-    orderBy: { created_at: "desc" },
-    take: 200,
-    select: { trace: true },
-  });
-  let totalClaims = 0;
-  let unsupportedClaims = 0;
-  for (const t of traces) {
-    const summary = (t.trace as any)?.summary;
-    if (!summary) continue;
-    totalClaims += Number(summary.totalClaims ?? 0);
-    unsupportedClaims += Number(summary.unsupportedClaims ?? 0);
+  if (!process.env.DATABASE_URL) {
+    return {
+      ok: false as const,
+      reason: "DATABASE_URL not configured (Prisma disabled during build).",
+      error: "Missing DATABASE_URL",
+    };
   }
-  const hallucinationRate = totalClaims > 0 ? unsupportedClaims / totalClaims : 0;
+  try {
+    const totalRuns = await (prisma as any).eval_runs.count();
 
-  return {
-    totalRuns,
-    goCount,
-    noGoCount,
-    avgScore: Number(scoreAgg?._avg?.value ?? 0),
-    hallucinationRate,
-    traceSampleCount: traces.length,
-  };
+    // Run-level verdict inference:
+    // - NO_GO if any score row has passed=false for that run
+    // - GO if it has any scores and none failed
+    // - UNKNOWN if there are no scores yet
+    const [scoredRuns, noGoRuns, scoreAgg] = await Promise.all([
+      (prisma as any).eval_scores.findMany({ distinct: ["run_id"], select: { run_id: true } }),
+      (prisma as any).eval_scores.findMany({ where: { passed: false }, distinct: ["run_id"], select: { run_id: true } }),
+      (prisma as any).eval_scores.aggregate({ _avg: { value: true } }),
+    ]);
+
+    const scored = new Set<string>(scoredRuns.map((r: any) => r.run_id));
+    const noGo = new Set<string>(noGoRuns.map((r: any) => r.run_id));
+    const goCount = Math.max(0, scored.size - noGo.size);
+    const noGoCount = noGo.size;
+
+    // Hallucination rate: aggregate latest traces to keep page fast.
+    const traces = await (prisma as any).hallucination_traces.findMany({
+      orderBy: { created_at: "desc" },
+      take: 200,
+      select: { trace: true },
+    });
+    let totalClaims = 0;
+    let unsupportedClaims = 0;
+    for (const t of traces) {
+      const summary = (t.trace as any)?.summary;
+      if (!summary) continue;
+      totalClaims += Number(summary.totalClaims ?? 0);
+      unsupportedClaims += Number(summary.unsupportedClaims ?? 0);
+    }
+    const hallucinationRate = totalClaims > 0 ? unsupportedClaims / totalClaims : 0;
+
+    return {
+      ok: true as const,
+      totalRuns,
+      goCount,
+      noGoCount,
+      avgScore: Number(scoreAgg?._avg?.value ?? 0),
+      hallucinationRate,
+      traceSampleCount: traces.length,
+    };
+  } catch (err: any) {
+    return {
+      ok: false as const,
+      reason: "DATABASE_URL not configured (Prisma unavailable in this environment).",
+      error: err?.message ? String(err.message) : String(err),
+    };
+  }
 }
 
 async function loadLatestRuns() {
-  return (prisma as any).eval_runs.findMany({
-    orderBy: { created_at: "desc" },
-    take: 10,
-    select: { id: true, task_type: true, status: true, created_at: true, model_config: true },
-  });
+  if (!process.env.DATABASE_URL) {
+    return { ok: false as const, rows: [] as any[], error: "Missing DATABASE_URL" };
+  }
+  try {
+    const rows = await (prisma as any).eval_runs.findMany({
+      orderBy: { created_at: "desc" },
+      take: 10,
+      select: { id: true, task_type: true, status: true, created_at: true, model_config: true },
+    });
+    return { ok: true as const, rows };
+  } catch (err: any) {
+    return { ok: false as const, rows: [] as any[], error: err?.message ? String(err.message) : String(err) };
+  }
 }
 
 export default async function Home() {
@@ -169,7 +193,7 @@ export default async function Home() {
     );
   }
 
-  if (live.totalRuns === 0) {
+  if (live.ok && live.totalRuns === 0) {
     return (
       <AppShell title="Release overview">
         <EmptyState
@@ -198,14 +222,10 @@ export default async function Home() {
       <div className="space-y-6">
         {/* Live summary (Prisma-backed) */}
         <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-          <MetricCard label="Total runs" value={String(live.totalRuns)} hint="Latest from eval_runs" />
-          <MetricCard label="GO vs NO_GO" value={`${live.goCount} / ${live.noGoCount}`} hint="Inferred from eval_scores" />
-          <MetricCard label="Average score" value={live.avgScore.toFixed(3)} hint="Avg of numeric scorer values" />
-          <MetricCard
-            label="Hallucination rate"
-            value={`${(live.hallucinationRate * 100).toFixed(1)}%`}
-            hint={`Aggregated from last ${live.traceSampleCount} traces`}
-          />
+          <MetricCard label="Total runs" value={live.ok ? String(live.totalRuns) : "—"} hint={live.ok ? "Latest from eval_runs" : live.reason} />
+          <MetricCard label="GO vs NO_GO" value={live.ok ? `${live.goCount} / ${live.noGoCount}` : "—"} hint={live.ok ? "Inferred from eval_scores" : "Set DATABASE_URL to enable live metrics"} />
+          <MetricCard label="Average score" value={live.ok ? live.avgScore.toFixed(3) : "—"} hint={live.ok ? "Avg of numeric scorer values" : "Prisma disabled"} />
+          <MetricCard label="Hallucination rate" value={live.ok ? `${(live.hallucinationRate * 100).toFixed(1)}%` : "—"} hint={live.ok ? `Aggregated from last ${live.traceSampleCount} traces` : "Prisma disabled"} />
         </section>
 
         {/* Latest runs (live) */}
@@ -218,7 +238,7 @@ export default async function Home() {
           </div>
           <div className="p-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-              {latestRuns.map((r: any) => (
+              {(latestRuns.ok ? latestRuns.rows : []).map((r: any) => (
                 <div key={r.id} className="rounded-md border border-white/10 bg-black/10 p-3 flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="text-sm font-medium text-white/85 truncate">{r.id}</div>
@@ -232,6 +252,11 @@ export default async function Home() {
                   </div>
                 </div>
               ))}
+              {!latestRuns.ok ? (
+                <div className="rounded-md border border-white/10 bg-black/10 p-3 text-[11px] text-white/70">
+                  Live runs unavailable. Set <span className="font-mono">DATABASE_URL</span> to enable Prisma-backed panels.
+                </div>
+              ) : null}
             </div>
           </div>
         </section>

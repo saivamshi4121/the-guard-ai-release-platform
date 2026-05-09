@@ -1,0 +1,21 @@
+{
+  "name": "@the-guard/reports",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@the-guard/benchmark": "workspace:*",
+    "@the-guard/regression": "workspace:*",
+    "zod": "^4.0.0"
+  }
+}
+

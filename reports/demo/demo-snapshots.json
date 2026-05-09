@@ -1,0 +1,1061 @@
+{
+  "createdAt": "2026-05-08T06:28:51.154Z",
+  "snapshots": [
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a WhatsApp message. Keep it under 420 characters. Assume the user is existing; keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: Acme\\nDeal title: Weekend Footwear Sale\\nDiscount: Up to 50% off\\nValid until: Sunday 11:59 PM\\nDo NOT claim: guaranteed, 100% safe, free forever.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a WhatsApp message. Keep it under 420 characters. Assume the user is existing; keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: Acme\nDeal title: Weekend Footwear Sale\nDiscount: Up to 50% off\nValid until: Sunday 11:59 PM\nDo NOT claim: guaranteed, 100% safe, free forever.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "Acme: Weekend Footwear Sale — Up to 50% off. Valid until Sunday 11:59 PM.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 116,
+            "outputTokens": 19,
+            "totalTokens": 135
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000174,
+            "outputCost": 0.000114,
+            "totalCost": 0.000288,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Assume the user is new; be clear and welcoming.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: Acme\\nDeal title: Grocery Cashback\\nDiscount: 10% cashback\\nValid until: ఈరోజు రాత్రి 11:59 వరకు\\nDo NOT claim: guaranteed, free forever.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Assume the user is new; be clear and welcoming.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: Acme\nDeal title: Grocery Cashback\nDiscount: 10% cashback\nValid until: ఈరోజు రాత్రి 11:59 వరకు\nDo NOT claim: guaranteed, free forever.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "Acmeలో Grocery Cashback — 10% cashback. Valid until ఈరోజు రాత్రి 11:59 వరకు.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 114,
+            "outputTokens": 19,
+            "totalTokens": 133
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000171,
+            "outputCost": 0.000114,
+            "totalCost": 0.000285,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a single-line push notification. Keep it under 110 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: Acme\\nDeal title: Flash Sale\\nDiscount: Extra 15% off\\nDo NOT claim: guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a single-line push notification. Keep it under 110 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: Acme\nDeal title: Flash Sale\nDiscount: Extra 15% off\nDo NOT claim: guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "Acme: Flash Sale — Extra 15% off.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 96,
+            "outputTokens": 9,
+            "totalTokens": 105
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000144,
+            "outputCost": 0.000054,
+            "totalCost": 0.000198,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a WhatsApp message. Keep it under 420 characters. Assume the user is new; be clear and welcoming.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: MyntraMart\\nDeal title: Monsoon Style Drop\\nDiscount: Flat 20% off with coupon SAVE20\\nValid until: Friday 10:00 PM\\nDo NOT claim: free forever, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a WhatsApp message. Keep it under 420 characters. Assume the user is new; be clear and welcoming.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: MyntraMart\nDeal title: Monsoon Style Drop\nDiscount: Flat 20% off with coupon SAVE20\nValid until: Friday 10:00 PM\nDo NOT claim: free forever, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "MyntraMart: Monsoon Style Drop — Flat 20% off with coupon SAVE20. Valid until Friday 10:00 PM.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 119,
+            "outputTokens": 24,
+            "totalTokens": 143
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001785,
+            "outputCost": 0.000144,
+            "totalCost": 0.0003225,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a single-line push notification. Keep it under 90 characters. Assume the user is existing; keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: MyntraMart\\nDeal title: Sneaker Hour\\nDiscount: Up to 30% off\\nValid until: 8 PM\\nDo NOT claim: free delivery, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a single-line push notification. Keep it under 90 characters. Assume the user is existing; keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: MyntraMart\nDeal title: Sneaker Hour\nDiscount: Up to 30% off\nValid until: 8 PM\nDo NOT claim: free delivery, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "MyntraMart: Sneaker Hour — Up to 30% off. Valid until 8 PM.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 113,
+            "outputTokens": 15,
+            "totalTokens": 128
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001695,
+            "outputCost": 0.00008999999999999999,
+            "totalCost": 0.00025949999999999997,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in Telugu. Write a single-line push notification. Keep it under 110 characters. Assume the user is existing; keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: SwiggyKart\\nDeal title: Daily Essentials\\nDiscount: ₹100 off with coupon FRESH100\\nValid until: ఈరోజు 9 PM వరకు\\nDo NOT claim: free forever, 100% safe, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in Telugu. Write a single-line push notification. Keep it under 110 characters. Assume the user is existing; keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: SwiggyKart\nDeal title: Daily Essentials\nDiscount: ₹100 off with coupon FRESH100\nValid until: ఈరోజు 9 PM వరకు\nDo NOT claim: free forever, 100% safe, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "SwiggyKartలో Daily Essentials — ₹100 off with coupon FRESH100. Valid until ఈరోజు 9 PM వరకు.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 123,
+            "outputTokens": 23,
+            "totalTokens": 146
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001845,
+            "outputCost": 0.000138,
+            "totalCost": 0.0003225,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: FreshBasket\\nDeal title: Green Veggies\\nDiscount: Up to 15% off selected items\\nValid until: Today 6 PM\\nDo NOT claim: 15% off everything, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: FreshBasket\nDeal title: Green Veggies\nDiscount: Up to 15% off selected items\nValid until: Today 6 PM\nDo NOT claim: 15% off everything, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "FreshBasket: Green Veggies — Up to 15% off selected items. Valid until Today 6 PM.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 110,
+            "outputTokens": 21,
+            "totalTokens": 131
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000165,
+            "outputCost": 0.000126,
+            "totalCost": 0.000291,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: AjioTech\\nDeal title: Headphone Deals\\nDiscount: Extra 10% off\\nValid until: Sunday\\nDo NOT claim: 2-year warranty, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: AjioTech\nDeal title: Headphone Deals\nDiscount: Extra 10% off\nValid until: Sunday\nDo NOT claim: 2-year warranty, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "AjioTech: Headphone Deals — Extra 10% off. Valid until Sunday.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 104,
+            "outputTokens": 16,
+            "totalTokens": 120
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000156,
+            "outputCost": 0.000096,
+            "totalCost": 0.000252,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: AjioTech\\nDeal title: Mobile Accessories\\nDiscount: 25% వరకు తగ్గింపు\\nValid until: ఆదివారం\\nDo NOT claim: free forever, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: AjioTech\nDeal title: Mobile Accessories\nDiscount: 25% వరకు తగ్గింపు\nValid until: ఆదివారం\nDo NOT claim: free forever, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "AjioTechలో Mobile Accessories — 25% వరకు తగ్గింపు. Valid until ఆదివారం.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 105,
+            "outputTokens": 18,
+            "totalTokens": 123
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001575,
+            "outputCost": 0.000108,
+            "totalCost": 0.0002655,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a single-line push notification. Keep it under 110 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: Triply\\nDeal title: Weekend Getaway\\nDiscount: Save ₹500 on hotels\\nValid until: This weekend\\nDo NOT claim: limited seats, guaranteed, non-stop flights.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a single-line push notification. Keep it under 110 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: Triply\nDeal title: Weekend Getaway\nDiscount: Save ₹500 on hotels\nValid until: This weekend\nDo NOT claim: limited seats, guaranteed, non-stop flights.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "Triply: Weekend Getaway — Save ₹500 on hotels. Valid until This weekend.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 114,
+            "outputTokens": 18,
+            "totalTokens": 132
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000171,
+            "outputCost": 0.000108,
+            "totalCost": 0.000279,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in Telugu. Write a single-line push notification. Keep it under 110 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: Triply\\nDeal title: బీచ్ ట్రిప్ డీల్\\nDiscount: హోటళ్లపై ₹500 తగ్గింపు\\nValid until: ఈ వారాంతం\\nDo NOT claim: guaranteed, free forever.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in Telugu. Write a single-line push notification. Keep it under 110 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: Triply\nDeal title: బీచ్ ట్రిప్ డీల్\nDiscount: హోటళ్లపై ₹500 తగ్గింపు\nValid until: ఈ వారాంతం\nDo NOT claim: guaranteed, free forever.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "Triplyలో బీచ్ ట్రిప్ డీల్ — హోటళ్లపై ₹500 తగ్గింపు. Valid until ఈ వారాంతం.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 109,
+            "outputTokens": 19,
+            "totalTokens": 128
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001635,
+            "outputCost": 0.000114,
+            "totalCost": 0.00027749999999999997,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: FreshBasket\\nDeal title: Pantry Staples\\nDiscount: ₹150 off with coupon (code must be mentioned)\\nValid until: Tonight\\nDo NOT claim: guaranteed, free forever.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: FreshBasket\nDeal title: Pantry Staples\nDiscount: ₹150 off with coupon (code must be mentioned)\nValid until: Tonight\nDo NOT claim: guaranteed, free forever.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "FreshBasket: Pantry Staples — ₹150 off with coupon (code must be mentioned). Valid until Tonight.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 112,
+            "outputTokens": 25,
+            "totalTokens": 137
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.00016800000000000002,
+            "outputCost": 0.00015000000000000001,
+            "totalCost": 0.00031800000000000003,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a single-line push notification. Keep it under 70 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: Acme\\nDeal title: Flash Sale\\nDiscount: Extra 15% off\\nValid until: 2 hours\\nDo NOT claim: guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a single-line push notification. Keep it under 70 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: Acme\nDeal title: Flash Sale\nDiscount: Extra 15% off\nValid until: 2 hours\nDo NOT claim: guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "Acme: Flash Sale — Extra 15% off. Valid until 2 hours.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 101,
+            "outputTokens": 14,
+            "totalTokens": 115
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.00015150000000000002,
+            "outputCost": 0.00008400000000000001,
+            "totalCost": 0.00023550000000000003,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: SwiggyKart\\nDeal title: సూపర్ సేవింగ్స్\\nDiscount: ఆర్డర్‌పై 12% తగ్గింపు\\nValid until: ఈరోజు\\nDo NOT claim: free delivery, ఫ్రీ డెలివరీ, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: SwiggyKart\nDeal title: సూపర్ సేవింగ్స్\nDiscount: ఆర్డర్‌పై 12% తగ్గింపు\nValid until: ఈరోజు\nDo NOT claim: free delivery, ఫ్రీ డెలివరీ, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "SwiggyKartలో సూపర్ సేవింగ్స్ — ఆర్డర్‌పై 12% తగ్గింపు. Valid until ఈరోజు.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 109,
+            "outputTokens": 19,
+            "totalTokens": 128
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001635,
+            "outputCost": 0.000114,
+            "totalCost": 0.00027749999999999997,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in English. Write a single-line push notification. Keep it under 90 characters. Assume the user is new; be clear and welcoming.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: MyntraMart\\nDeal title: Winter Jackets\\nDiscount: Flat 15% off with coupon (code must be mentioned)\\nValid until: Saturday 9 PM\\nDo NOT claim: guaranteed, free forever.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in English. Write a single-line push notification. Keep it under 90 characters. Assume the user is new; be clear and welcoming.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: MyntraMart\nDeal title: Winter Jackets\nDiscount: Flat 15% off with coupon (code must be mentioned)\nValid until: Saturday 9 PM\nDo NOT claim: guaranteed, free forever.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "MyntraMart: Winter Jackets — Flat 15% off with coupon (code must be mentioned). Valid until Saturday 9 PM.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 125,
+            "outputTokens": 27,
+            "totalTokens": 152
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0001875,
+            "outputCost": 0.000162,
+            "totalCost": 0.0003495,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a marketing copywriter. Be accurate and avoid making up facts.\",\"prompt\":\"Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Assume the user is existing; keep it concise.\\nUse only the facts below. Do not invent numbers, dates, or guarantees.\\nBrand: FreshBasket\\nDeal title: Veg Essentials\\nDiscount: 20% వరకు తగ్గింపు + free delivery\\nValid until: ఈ ఆదివారం\\nDo NOT claim: free delivery, ఫ్రీ డెలివరీ, guaranteed.\\nReturn only the final copy text (no explanations).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a marketing copywriter. Be accurate and avoid making up facts.",
+        "prompt": "Write in Telugu. Write a WhatsApp message. Keep it under 420 characters. Assume the user is existing; keep it concise.\nUse only the facts below. Do not invent numbers, dates, or guarantees.\nBrand: FreshBasket\nDeal title: Veg Essentials\nDiscount: 20% వరకు తగ్గింపు + free delivery\nValid until: ఈ ఆదివారం\nDo NOT claim: free delivery, ఫ్రీ డెలివరీ, guaranteed.\nReturn only the final copy text (no explanations)."
+      },
+      "output": {
+        "text": "FreshBasketలో Veg Essentials — 20% వరకు తగ్గింపు + free delivery. Valid until ఈ ఆదివారం.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 120,
+            "outputTokens": 22,
+            "totalTokens": 142
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.00017999999999999998,
+            "outputCost": 0.00013199999999999998,
+            "totalCost": 0.000312,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: I want a refund for my last order. It didn’t work.\\nOrder: OD-1001 (MyntraMart).\\nIssue: Refund request. Reason: Item not as described.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: I want a refund for my last order. It didn’t work.\nOrder: OD-1001 (MyntraMart).\nIssue: Refund request. Reason: Item not as described.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-1001 (MyntraMart). Please share any relevant details so we can assist. If eligible, we can help with a refund per policy.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 157,
+            "outputTokens": 43,
+            "totalTokens": 200
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002355,
+            "outputCost": 0.000258,
+            "totalCost": 0.0004935,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a short email reply (2–6 sentences). Be calm and empathetic.\\nKeep it under 1200 characters.\\n\\nCustomer message: Refund my order right now. This is unacceptable.\\nOrder: OD-1002 (AjioTech).\\nIssue: Refund request. Reason: Change of mind after 30 days.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a short email reply (2–6 sentences). Be calm and empathetic.\nKeep it under 1200 characters.\n\nCustomer message: Refund my order right now. This is unacceptable.\nOrder: OD-1002 (AjioTech).\nIssue: Refund request. Reason: Change of mind after 30 days.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-1002 (AjioTech). Please share any relevant details so we can assist. We can’t guarantee a refund if it’s not eligible under policy. I’m escalating this to our specialist team now.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 159,
+            "outputTokens": 57,
+            "totalTokens": 216
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002385,
+            "outputCost": 0.000342,
+            "totalCost": 0.0005805000000000001,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be calm and empathetic.\\nKeep it under 700 characters.\\n\\nCustomer message: My order is late. Where is it?\\nOrder: OD-2001 (SwiggyKart).\\nIssue: Delayed delivery. Delay: 2 days. ETA: Tomorrow 6 PM.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be calm and empathetic.\nKeep it under 700 characters.\n\nCustomer message: My order is late. Where is it?\nOrder: OD-2001 (SwiggyKart).\nIssue: Delayed delivery. Delay: 2 days. ETA: Tomorrow 6 PM.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-2001 (SwiggyKart). Updated ETA: Tomorrow 6 PM. If eligible, we can help with a refund per policy.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 153,
+            "outputTokens": 37,
+            "totalTokens": 190
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002295,
+            "outputCost": 0.000222,
+            "totalCost": 0.00045149999999999997,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in Telugu. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: నా ఆర్డర్ ఇంకా రాలేదు. ఎప్పుడు వస్తుంది?\\nOrder: OD-2002 (SwiggyKart).\\nIssue: Delayed delivery. Delay: 1 రోజు. ETA: రేపు సాయంత్రం 6.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in Telugu. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: నా ఆర్డర్ ఇంకా రాలేదు. ఎప్పుడు వస్తుంది?\nOrder: OD-2002 (SwiggyKart).\nIssue: Delayed delivery. Delay: 1 రోజు. ETA: రేపు సాయంత్రం 6.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "క్షమించండి. మేము మీకు సహాయం చేస్తాము. ఆర్డర్ OD-2002 (SwiggyKart). అప్‌డేటెడ్ ETA: రేపు సాయంత్రం 6. policy ప్రకారం రిఫండ్ సహాయం చేస్తాము.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 156,
+            "outputTokens": 35,
+            "totalTokens": 191
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000234,
+            "outputCost": 0.00021000000000000004,
+            "totalCost": 0.00044400000000000006,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: My coupon SAVE20 isn’t applying. Please fix it.\\nOrder: OD-3001 (MyntraMart).\\nIssue: Coupon failure. Coupon: SAVE20. Error: Coupon not eligible for this cart.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 0\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: My coupon SAVE20 isn’t applying. Please fix it.\nOrder: OD-3001 (MyntraMart).\nIssue: Coupon failure. Coupon: SAVE20. Error: Coupon not eligible for this cart.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 0\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-3001 (MyntraMart). Please share any relevant details so we can assist. We can’t guarantee a refund if it’s not eligible under policy.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 163,
+            "outputTokens": 46,
+            "totalTokens": 209
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.00024450000000000003,
+            "outputCost": 0.000276,
+            "totalCost": 0.0005205,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in Telugu. Write a chat reply (2–5 sentences). Be calm and empathetic.\\nKeep it under 700 characters.\\n\\nCustomer message: FRESH100 కూపన్ పని చేయడం లేదు. వెంటనే సరిచేయండి.\\nOrder: OD-3002 (FreshBasket).\\nIssue: Coupon failure. Coupon: FRESH100. Error: Coupon expired.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 0\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in Telugu. Write a chat reply (2–5 sentences). Be calm and empathetic.\nKeep it under 700 characters.\n\nCustomer message: FRESH100 కూపన్ పని చేయడం లేదు. వెంటనే సరిచేయండి.\nOrder: OD-3002 (FreshBasket).\nIssue: Coupon failure. Coupon: FRESH100. Error: Coupon expired.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 0\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "క్షమించండి. మేము మీకు సహాయం చేస్తాము. ఆర్డర్ OD-3002 (FreshBasket). దయచేసి ఆర్డర్ వివరాలు నిర్ధారించండి. policy ప్రకారం రిఫండ్ హామీ ఇవ్వలేము. మా టీమ్‌కి ఎస్కలేట్ చేస్తున్నాం.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 159,
+            "outputTokens": 44,
+            "totalTokens": 203
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002385,
+            "outputCost": 0.00026399999999999997,
+            "totalCost": 0.0005024999999999999,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be calm and professional. Set boundaries about respectful language.\\nKeep it under 700 characters.\\n\\nCustomer message: You guys are idiots. Fix my refund or I’ll spam you.\\nOrder: OD-4001 (AjioTech).\\nIssue: Refund request. Reason: Damaged item.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be calm and professional. Set boundaries about respectful language.\nKeep it under 700 characters.\n\nCustomer message: You guys are idiots. Fix my refund or I’ll spam you.\nOrder: OD-4001 (AjioTech).\nIssue: Refund request. Reason: Damaged item.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-4001 (AjioTech). Please share any relevant details so we can assist. If eligible, we can help with a refund per policy. I’m escalating this to our specialist team now.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 165,
+            "outputTokens": 54,
+            "totalTokens": 219
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002475,
+            "outputCost": 0.000324,
+            "totalCost": 0.0005715,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in Telugu. Write a chat reply (2–5 sentences). Be calm and professional. Set boundaries about respectful language.\\nKeep it under 700 characters.\\n\\nCustomer message: మీరు పనికిరారు. వెంటనే రిఫండ్ ఇవ్వండి.\\nOrder: OD-4002 (SwiggyKart).\\nIssue: Refund request. Reason: Wrong item delivered.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in Telugu. Write a chat reply (2–5 sentences). Be calm and professional. Set boundaries about respectful language.\nKeep it under 700 characters.\n\nCustomer message: మీరు పనికిరారు. వెంటనే రిఫండ్ ఇవ్వండి.\nOrder: OD-4002 (SwiggyKart).\nIssue: Refund request. Reason: Wrong item delivered.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "క్షమించండి. మేము మీకు సహాయం చేస్తాము. ఆర్డర్ OD-4002 (SwiggyKart). దయచేసి ఆర్డర్ వివరాలు నిర్ధారించండి. policy ప్రకారం రిఫండ్ సహాయం చేస్తాము. మా టీమ్‌కి ఎస్కలేట్ చేస్తున్నాం.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 164,
+            "outputTokens": 44,
+            "totalTokens": 208
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000246,
+            "outputCost": 0.00026399999999999997,
+            "totalCost": 0.00051,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a short email reply (2–6 sentences). Be helpful and concise.\\nKeep it under 1200 characters.\\n\\nCustomer message: My item arrived damaged. What can you do?\\nOrder: OD-5001 (AjioTech).\\nIssue: Damaged item. Item: Bluetooth speaker.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a short email reply (2–6 sentences). Be helpful and concise.\nKeep it under 1200 characters.\n\nCustomer message: My item arrived damaged. What can you do?\nOrder: OD-5001 (AjioTech).\nIssue: Damaged item. Item: Bluetooth speaker.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-5001 (AjioTech). Please share any relevant details so we can assist. If eligible, we can help with a refund per policy.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 154,
+            "outputTokens": 42,
+            "totalTokens": 196
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000231,
+            "outputCost": 0.000252,
+            "totalCost": 0.00048300000000000003,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in Telugu. Write a short email reply (2–6 sentences). Be helpful and concise.\\nKeep it under 1200 characters.\\n\\nCustomer message: నా ప్రొడక్ట్ డ్యామేజ్ అయ్యింది. ఏమి చేయాలి?\\nOrder: OD-5002 (AjioTech).\\nIssue: Damaged item. Item: ఇయర్‌ఫోన్స్.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in Telugu. Write a short email reply (2–6 sentences). Be helpful and concise.\nKeep it under 1200 characters.\n\nCustomer message: నా ప్రొడక్ట్ డ్యామేజ్ అయ్యింది. ఏమి చేయాలి?\nOrder: OD-5002 (AjioTech).\nIssue: Damaged item. Item: ఇయర్‌ఫోన్స్.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "క్షమించండి. మేము మీకు సహాయం చేస్తాము. ఆర్డర్ OD-5002 (AjioTech). దయచేసి ఆర్డర్ వివరాలు నిర్ధారించండి. policy ప్రకారం రిఫండ్ సహాయం చేస్తాము.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 153,
+            "outputTokens": 35,
+            "totalTokens": 188
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002295,
+            "outputCost": 0.00021000000000000004,
+            "totalCost": 0.0004395,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: I can’t log in. It says OTP failed.\\nOrder: OD-6001 (Triply).\\nIssue: Account issue. Detail: OTP failed repeatedly.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 0\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: I can’t log in. It says OTP failed.\nOrder: OD-6001 (Triply).\nIssue: Account issue. Detail: OTP failed repeatedly.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 0\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-6001 (Triply). Please share any relevant details so we can assist. We can’t guarantee a refund if it’s not eligible under policy. I’m escalating this to our specialist team now.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 152,
+            "outputTokens": 57,
+            "totalTokens": 209
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000228,
+            "outputCost": 0.000342,
+            "totalCost": 0.00057,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be calm and empathetic.\\nKeep it under 700 characters.\\n\\nCustomer message: My hotel booking is cancelled. Refund me today.\\nOrder: OD-7001 (Triply).\\nIssue: Refund request. Reason: Partner cancellation.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be calm and empathetic.\nKeep it under 700 characters.\n\nCustomer message: My hotel booking is cancelled. Refund me today.\nOrder: OD-7001 (Triply).\nIssue: Refund request. Reason: Partner cancellation.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-7001 (Triply). Please share any relevant details so we can assist. We can’t guarantee a refund if it’s not eligible under policy. I’m escalating this to our specialist team now.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 155,
+            "outputTokens": 57,
+            "totalTokens": 212
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002325,
+            "outputCost": 0.000342,
+            "totalCost": 0.0005745,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a short email reply (2–6 sentences). Be helpful and concise.\\nKeep it under 1200 characters.\\n\\nCustomer message: Order delayed for 3 days. Please help.\\nOrder: OD-2003 (FreshBasket).\\nIssue: Delayed delivery. Delay: 3 days. ETA: Next Monday.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: true\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a short email reply (2–6 sentences). Be helpful and concise.\nKeep it under 1200 characters.\n\nCustomer message: Order delayed for 3 days. Please help.\nOrder: OD-2003 (FreshBasket).\nIssue: Delayed delivery. Delay: 3 days. ETA: Next Monday.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: true\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-2003 (FreshBasket). Updated ETA: Next Monday. If eligible, we can help with a refund per policy. I’m escalating this to our specialist team now.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 157,
+            "outputTokens": 48,
+            "totalTokens": 205
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.0002355,
+            "outputCost": 0.000288,
+            "totalCost": 0.0005235,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in Telugu. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: నా ఆర్డర్‌లో ఐటెం తప్పు వచ్చింది. రిఫండ్ కావాలి.\\nOrder: OD-1003 (MyntraMart).\\nIssue: Refund request. Reason: Wrong item delivered.\\n\\nPolicy facts:\\n- refundEligible: true\\n- refundWindowDays: 7\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in Telugu. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: నా ఆర్డర్‌లో ఐటెం తప్పు వచ్చింది. రిఫండ్ కావాలి.\nOrder: OD-1003 (MyntraMart).\nIssue: Refund request. Reason: Wrong item delivered.\n\nPolicy facts:\n- refundEligible: true\n- refundWindowDays: 7\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "క్షమించండి. మేము మీకు సహాయం చేస్తాము. ఆర్డర్ OD-1003 (MyntraMart). దయచేసి ఆర్డర్ వివరాలు నిర్ధారించండి. policy ప్రకారం రిఫండ్ సహాయం చేస్తాము.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 156,
+            "outputTokens": 36,
+            "totalTokens": 192
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000234,
+            "outputCost": 0.000216,
+            "totalCost": 0.00045,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: My coupon isn't working.\\nOrder: OD-3003 (MyntraMart).\\nIssue: Coupon failure. Coupon: (missing). Error: No coupon provided.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 0\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in English. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: My coupon isn't working.\nOrder: OD-3003 (MyntraMart).\nIssue: Coupon failure. Coupon: (missing). Error: No coupon provided.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 0\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "Sorry about this — we’re here to help. Order OD-3003 (MyntraMart). Please share any relevant details so we can assist. We can’t guarantee a refund if it’s not eligible under policy.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 154,
+            "outputTokens": 46,
+            "totalTokens": 200
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000231,
+            "outputCost": 0.000276,
+            "totalCost": 0.000507,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    },
+    {
+      "key": "{\"system\":\"You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.\",\"prompt\":\"Write in Telugu. Write a chat reply (2–5 sentences). Be helpful and concise.\\nKeep it under 700 characters.\\n\\nCustomer message: కూపన్ పనిచేయడం లేదు.\\nOrder: OD-3004 (FreshBasket).\\nIssue: Coupon failure. Coupon: SAVE10. Error: Minimum cart value not met.\\n\\nPolicy facts:\\n- refundEligible: false\\n- refundWindowDays: 0\\n- couponRefundable: false\\n- escalationRequired: false\\n\\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\\nReturn only the reply text (no bullet labels, no analysis).\"}",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "input": {
+        "system": "You are a customer support agent. Never promise outcomes that contradict policy facts. Avoid absolute guarantees.",
+        "prompt": "Write in Telugu. Write a chat reply (2–5 sentences). Be helpful and concise.\nKeep it under 700 characters.\n\nCustomer message: కూపన్ పనిచేయడం లేదు.\nOrder: OD-3004 (FreshBasket).\nIssue: Coupon failure. Coupon: SAVE10. Error: Minimum cart value not met.\n\nPolicy facts:\n- refundEligible: false\n- refundWindowDays: 0\n- couponRefundable: false\n- escalationRequired: false\n\nInclude: (a) empathy, (b) next steps, (c) escalation guidance if required.\nReturn only the reply text (no bullet labels, no analysis)."
+      },
+      "output": {
+        "text": "క్షమించండి. మేము మీకు సహాయం చేస్తాము. ఆర్డర్ OD-3004 (FreshBasket). దయచేసి ఆర్డర్ వివరాలు నిర్ధారించండి. policy ప్రకారం రిఫండ్ హామీ ఇవ్వలేము.",
+        "metadata": {
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "latencyMs": 120,
+          "usage": {
+            "inputTokens": 154,
+            "outputTokens": 36,
+            "totalTokens": 190
+          },
+          "cost": {
+            "currency": "USD",
+            "inputCost": 0.000231,
+            "outputCost": 0.000216,
+            "totalCost": 0.000447,
+            "isEstimated": true,
+            "model": "gpt-4o-mini"
+          },
+          "raw": {
+            "demo": true
+          }
+        }
+      }
+    }
+  ]
+}
