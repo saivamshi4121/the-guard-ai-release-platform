@@ -1,0 +1,16 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/contracts" },
+    { "path": "./packages/db" },
+    { "path": "./packages/llm" },
+    { "path": "./packages/eval" },
+    { "path": "./packages/regression" },
+    { "path": "./packages/hallucination" },
+    { "path": "./packages/benchmark" },
+    { "path": "./packages/reports" },
+    { "path": "./apps/runner" },
+    { "path": "./apps/regression-runner" }
+  ]
+}
+

@@ -1,0 +1,20 @@
+{
+  "name": "@the-guard/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -b",
+    "lint": "echo \"(contracts) add eslint config later\"",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "zod": "^4.0.0"
+  }
+}

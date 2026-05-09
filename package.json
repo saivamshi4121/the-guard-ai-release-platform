@@ -1,0 +1,26 @@
+{
+  "name": "the-guard",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "tsc -b --pretty false",
+    "regression:check": "pnpm -C apps/regression-runner dev",
+    "demo:seed": "tsx scripts/seed-demo.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.3",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "eslint": "^10.3.0",
+    "prettier": "^3.8.3",
+    "tsx": "^4.21.0",
+    "turbo": "^2.9.9",
+    "typescript": "^6.0.3"
+  }
+}

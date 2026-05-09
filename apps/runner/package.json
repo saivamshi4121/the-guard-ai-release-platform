@@ -1,0 +1,22 @@
+{
+  "name": "@the-guard/runner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@the-guard/contracts": "workspace:*",
+    "@the-guard/db": "workspace:*",
+    "@the-guard/eval": "workspace:*",
+    "@the-guard/llm": "workspace:*",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

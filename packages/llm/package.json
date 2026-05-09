@@ -1,0 +1,23 @@
+{
+  "name": "@the-guard/llm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "echo \"(llm) add eslint config later\""
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@the-guard/contracts": "workspace:*",
+    "openai": "^5.3.0",
+    "zod": "^4.0.0"
+  }
+}

@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EvalRun {
+  id          String      @id @default(uuid())
+  createdAt   DateTime    @default(now())
+  name        String?
+  metadata    Json?
+  config      Json?
+  scores      EvalScore[]
+  regressions Regression[]
+
+  @@map("eval_runs")
+}
+
+model EvalCase {
+  id           String      @id @default(uuid())
+  createdAt    DateTime    @default(now())
+  input        String
+  expected     String?
+  metadata     Json?
+  scores       EvalScore[]
+  traces       HallucinationTrace[]
+  regressions  Regression[]
+
+  @@map("eval_cases")
+}
+
+model EvalScore {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  metric      String
+  value       Float
+  runId       String
+  caseId      String
+  run         EvalRun   @relation(fields: [runId], references: [id])
+  case        EvalCase  @relation(fields: [caseId], references: [id])
+
+  @@map("eval_scores")
+}
+
+model PromptVersion {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  content     String
+  version     String
+  model       String
+  metadata    Json?
+
+  @@map("prompt_versions")
+}
+
+model ModelConfig {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  provider    String
+  modelName   String
+  parameters  Json?
+
+  @@map("model_configs")
+}
+
+model Regression {
+  id             String    @id @default(uuid())
+  createdAt      DateTime  @default(now())
+  caseId         String
+  runId          String
+  previousScore  Float
+  currentScore   Float
+  case           EvalCase  @relation(fields: [caseId], references: [id])
+  run            EvalRun   @relation(fields: [runId], references: [id])
+
+  @@map("regressions")
+}
+
+model HallucinationTrace {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  input       String
+  output      String
+  reasoning   String?
+  caseId      String
+  case        EvalCase  @relation(fields: [caseId], references: [id])
+
+  @@map("hallucination_traces")
+}

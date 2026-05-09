@@ -1,0 +1,21 @@
+{
+  "name": "@the-guard/benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@the-guard/db": "workspace:*",
+    "zod": "^4.0.0"
+  }
+}
+

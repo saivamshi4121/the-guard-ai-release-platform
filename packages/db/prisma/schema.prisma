@@ -1,0 +1,294 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// TaskType categorizes evaluation intent (routing, scoring, dashboards).
+enum TaskType {
+  SAFETY
+  HALLUCINATION
+  INJECTION
+  POLICY
+  QA
+}
+
+/// ScoreType supports heterogeneous scoring without schema churn.
+enum ScoreType {
+  BOOLEAN
+  NUMERIC
+  CATEGORICAL
+  TEXT
+}
+
+/// RunStatus models production lifecycle for retries and visibility.
+enum RunStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+/// RegressionSeverity is used for release gating decisions.
+enum RegressionSeverity {
+  INFO
+  WARN
+  BLOCKER
+}
+
+/// `prompt_versions` stores immutable prompt snapshots.
+/// Evaluations reference a version to make results reproducible and auditable.
+model prompt_versions {
+  id            String   @id @default(cuid())
+  task_type     TaskType
+  name          String
+  version       Int
+  /// sha256 hash of the prompt template for fast change detection and dedupe
+  template_hash String
+  template      String
+  metadata      Json?
+  created_at    DateTime @default(now())
+
+  eval_runs eval_runs[]
+
+  @@unique([name, version, task_type])
+  @@index([template_hash])
+  @@index([task_type, name])
+  @@map("prompt_versions")
+}
+
+/// `eval_cases` stores single test vectors (inputs/expectations).
+/// Cases are the unit of evaluation coverage.
+model eval_cases {
+  id          String   @id @default(cuid())
+  task_type   TaskType
+  name        String
+  description String?
+  input       Json
+  expected    Json?
+  tags        String[]
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  eval_scores          eval_scores[]
+  eval_outputs         eval_outputs[]
+  hallucination_traces hallucination_traces[]
+
+  @@index([task_type, name])
+  @@index([tags])
+  @@map("eval_cases")
+}
+
+/// `eval_runs` represents one execution of a model+prompt against many cases.
+/// This is the unit of observability (timestamps, status, trace linkage).
+model eval_runs {
+  id                String    @id @default(cuid())
+  task_type         TaskType
+  status            RunStatus @default(QUEUED)
+  model_config      Json
+  prompt_version_id String?
+  started_at        DateTime?
+  completed_at      DateTime?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+
+  prompt_version       prompt_versions?       @relation(fields: [prompt_version_id], references: [id], onDelete: SetNull)
+  eval_scores          eval_scores[]
+  eval_outputs         eval_outputs[]
+  hallucination_traces hallucination_traces[]
+
+  baseline_regressions  regressions[] @relation("baseline_run")
+  candidate_regressions regressions[] @relation("candidate_run")
+
+  @@index([task_type, status, created_at])
+  @@index([prompt_version_id])
+  @@map("eval_runs")
+}
+
+/// `eval_outputs` stores the raw model output for a run+case.
+/// Kept separate from `eval_scores` so the full text can be stored/queried independently.
+model eval_outputs {
+  id          String   @id @default(cuid())
+  run_id      String
+  case_id     String
+  output_text String
+  output_json Json?
+  provider    String
+  model       String
+  latency_ms  Int
+  usage       Json
+  cost        Json
+  created_at  DateTime @default(now())
+
+  run       eval_runs  @relation(fields: [run_id], references: [id], onDelete: Cascade)
+  eval_case eval_cases @relation(fields: [case_id], references: [id], onDelete: Cascade)
+
+  @@unique([run_id, case_id])
+  @@index([run_id])
+  @@index([case_id])
+  @@map("eval_outputs")
+}
+
+/// `eval_scores` stores per-run, per-case scoring outputs.
+/// Multiple score types can be attached to the same run+case.
+model eval_scores {
+  id         String    @id @default(cuid())
+  run_id     String
+  case_id    String
+  scorer_id  String
+  score_type ScoreType
+  value      Float
+  passed     Boolean
+  rationale  String?
+  metadata   Json?
+  created_at DateTime  @default(now())
+
+  run       eval_runs  @relation(fields: [run_id], references: [id], onDelete: Cascade)
+  eval_case eval_cases @relation(fields: [case_id], references: [id], onDelete: Cascade)
+
+  @@unique([run_id, case_id, scorer_id])
+  @@index([run_id, score_type])
+  @@index([case_id])
+  @@map("eval_scores")
+}
+
+/// `regressions` compares two runs (baseline vs candidate) and summarizes deltas.
+/// This powers release gating and regression reporting.
+model regressions {
+  id               String             @id @default(cuid())
+  baseline_run_id  String
+  candidate_run_id String
+  severity         RegressionSeverity
+  summary          String
+  details          Json?
+  created_at       DateTime           @default(now())
+
+  baseline_run  eval_runs @relation("baseline_run", fields: [baseline_run_id], references: [id], onDelete: Cascade)
+  candidate_run eval_runs @relation("candidate_run", fields: [candidate_run_id], references: [id], onDelete: Cascade)
+
+  @@unique([baseline_run_id, candidate_run_id])
+  @@index([severity, created_at])
+  @@map("regressions")
+}
+
+/// `regression_reports` stores an explainable snapshot of comparisons and decisions.
+/// Kept separate from `regressions` so the system can store multiple analyses over time.
+model regression_reports {
+  id                  String             @id @default(cuid())
+  baseline_run_id     String
+  candidate_run_id    String
+  verdict             String
+  severity            RegressionSeverity
+  summary             String
+  comparison_json     Json
+  prompt_diff_summary String?
+  created_at          DateTime           @default(now())
+
+  @@index([baseline_run_id, candidate_run_id, created_at])
+  @@map("regression_reports")
+}
+
+/// `regression_examples` stores the worst failing examples for fast human review.
+model regression_examples {
+  id               String   @id @default(cuid())
+  report_id        String
+  case_id          String
+  metric           String
+  segment          String
+  baseline_output  String?
+  candidate_output String?
+  baseline_score   Float?
+  candidate_score  Float?
+  delta            Float?
+  created_at       DateTime @default(now())
+
+  @@index([report_id])
+  @@index([case_id])
+  @@map("regression_examples")
+}
+
+/// `benchmark_summaries` stores cost-vs-quality rollups for a set of runs.
+model benchmark_summaries {
+  id           String    @id @default(cuid())
+  task_type    TaskType?
+  summary_json Json
+  created_at   DateTime  @default(now())
+
+  @@index([created_at])
+  @@map("benchmark_summaries")
+}
+
+/// `benchmark_recommendations` stores human-readable recommendation artifacts.
+model benchmark_recommendations {
+  id             String   @id @default(cuid())
+  summary_id     String
+  recommendation String
+  metadata       Json?
+  created_at     DateTime @default(now())
+
+  @@index([summary_id])
+  @@map("benchmark_recommendations")
+}
+
+/// `cost_guard_events` stores safety-limit decisions for auditability.
+/// These events allow incident investigation (why was a run aborted?).
+model cost_guard_events {
+  id         String   @id @default(cuid())
+  run_id     String?
+  kind       String // e.g. RUN_ABORTED, DAILY_LIMIT_REACHED, MODEL_REJECTED
+  message    String
+  details    Json?
+  created_at DateTime @default(now())
+
+  @@index([run_id, created_at])
+  @@index([kind, created_at])
+  @@map("cost_guard_events")
+}
+
+/// `aborted_runs` records eval runs that were intentionally terminated by safeguards.
+model aborted_runs {
+  id         String   @id @default(cuid())
+  run_id     String
+  reason     String
+  details    Json?
+  created_at DateTime @default(now())
+
+  @@unique([run_id])
+  @@index([created_at])
+  @@map("aborted_runs")
+}
+
+/// `projected_costs` stores pre-call cost projections for observability.
+model projected_costs {
+  id            String   @id @default(cuid())
+  run_id        String
+  case_id       String?
+  projected_usd Float
+  limit_usd     Float?
+  metadata      Json?
+  created_at    DateTime @default(now())
+
+  @@index([run_id, created_at])
+  @@map("projected_costs")
+}
+
+/// `hallucination_traces` stores structured evidence for hallucination analysis.
+/// Kept separate from scores so traces can be large/high-cardinality without impacting common queries.
+model hallucination_traces {
+  id         String   @id @default(cuid())
+  run_id     String
+  case_id    String
+  trace      Json
+  created_at DateTime @default(now())
+
+  run       eval_runs  @relation(fields: [run_id], references: [id], onDelete: Cascade)
+  eval_case eval_cases @relation(fields: [case_id], references: [id], onDelete: Cascade)
+
+  @@index([run_id])
+  @@index([case_id])
+  @@map("hallucination_traces")
+}
