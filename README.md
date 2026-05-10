@@ -333,6 +333,8 @@ pnpm -C apps/web dev
 
 Open `http://localhost:3000`. Set `DATABASE_URL` in `apps/web/.env.local` for live Prisma panels.
 
+Demo video: https://www.loom.com/share/18ed99aaa644433d9355be78cfc5aca1
+
 ### 8. Validation (submission checks)
 
 ```bash
