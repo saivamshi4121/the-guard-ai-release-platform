@@ -70,7 +70,7 @@ ENABLE_DEMO_MODE=true pnpm -C apps/runner dev
 pnpm -C apps/web dev
 ```
 
-Demo video: *(add Loom link here)*
+Demo video: https://www.loom.com/share/18ed99aaa644433d9355be78cfc5aca1
 
 Topics (GitHub): `llm-evals`, `ai-infrastructure`, `hallucination-detection`, `ai-observability`, `typescript`, `nextjs`
 

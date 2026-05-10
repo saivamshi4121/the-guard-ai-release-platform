@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "prisma generate --schema=./prisma/schema.prisma && node -e \"require('fs').rmSync('dist',{recursive:true,force:true});try{require('fs').unlinkSync('tsconfig.tsbuildinfo')}catch{}\" && tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "echo \"(db) add eslint config later\"",
     "prisma:generate": "prisma generate",
