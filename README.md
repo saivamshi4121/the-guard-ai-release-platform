@@ -76,6 +76,26 @@ Topics (GitHub): `llm-evals`, `ai-infrastructure`, `hallucination-detection`, `a
 
 ---
 
+### Screenshots
+
+**Release overview** — Latest eval runs (Prisma-backed) and release verdict with baseline vs candidate comparison.
+
+![Release overview: latest eval runs and GO/NO-GO verdict](docs/screenshots/s1.png)
+
+**Regression detail** — Falling examples with inputs, baseline vs candidate outputs, failed scorers, and hallucination traces.
+
+![Regression report: falling examples and traces](docs/screenshots/s2.png)
+
+**History** — Event timeline, regression/trend chart (Telugu quality, hallucination rate, regression frequency), and prompt lineage.
+
+![History: timeline, trends, and prompt lineage](docs/screenshots/s3.png)
+
+**Hallucination evidence** — Deterministic claim verification, hallucination rate delta, and trace preview payload.
+
+![Hallucination evidence and trace preview](docs/screenshots/s4.png)
+
+---
+
 ### Architecture overview
 
 High-level flow:
