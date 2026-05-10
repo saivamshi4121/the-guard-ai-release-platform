@@ -1,0 +1,22 @@
+{
+  "_comment": "Single-case excerpt from demo-snapshots.json for submission review.",
+  "key": "{\"system\":\"You are a marketing copywriter...\",\"prompt\":\"Write in English. Write a WhatsApp message...\"}",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "output": {
+    "text": "Acme: Weekend Footwear Sale — Up to 50% off. Valid until Sunday 11:59 PM.",
+    "metadata": {
+      "latencyMs": 120,
+      "usage": { "inputTokens": 116, "outputTokens": 19, "totalTokens": 135 },
+      "cost": {
+        "currency": "USD",
+        "inputCost": 0.000174,
+        "outputCost": 0.000114,
+        "totalCost": 0.000288,
+        "isEstimated": true,
+        "model": "gpt-4o-mini"
+      },
+      "raw": { "demo": true }
+    }
+  }
+}

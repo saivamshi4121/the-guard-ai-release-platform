@@ -1,484 +1,491 @@
-# The Guard
-## AI Release Safety Infrastructure for Production LLM Systems
+# The Guard — AI Release Safety Platform
 
-The Guard is an AI release safety platform that **prevents silent regressions** in production LLM systems. It treats prompt/model/orchestration changes as deployable artifacts that require the same rigor we expect from modern software: evaluation, statistical comparison, evidence capture, and release gating.
-
-LLM systems fail differently than traditional software. Small changes can cause **hallucinations**, **localization drift**, or **channel-specific compliance failures** that slip through manual spot checks. The Guard exists to make these failures *measurable, explainable, and automatically blockable* in CI/CD.
-
-This repository is structured like internal infrastructure: explicit module boundaries, deterministic scoring where possible, and artifacts suitable for PR gating and post-incident forensics.
+Dense operational README for reviewers: what shipped, how it is structured, how to run it safely, and where artifacts live. Submission addenda: [`submission/`](./submission/), eval outputs: [`reports/`](./reports/).
 
 ---
 
-### Why this matters
+## Project Overview
 
-AI systems ship regressions differently than traditional software: the failure mode is often **silent** until users or compliance teams find it. The Guard is built to make release safety **measurable**, **explainable**, and **blockable**:
-- prevent hallucination and grounding regressions from reaching production
-- make localization/channel failures visible quickly (EN vs Telugu; WhatsApp vs Push)
-- turn “model/prompt changes” into a release-engineering workflow with artifacts and audit trails
+### What was built
 
----
+**The Guard** is a monorepo for **LLM release safety**: dataset-driven evaluations against OpenAI / Google providers (or deterministic replay), composable scorers, hallucination tracing, statistical regression analysis (paired bootstrap, CIs, p-values), GO/NO-GO/INCONCLUSIVE gating, Markdown/JSON reports for CI, and a **Next.js** ops dashboard (overview, regressions, benchmarks, history).
 
-### Problem statement
+### Why this assignment was chosen
 
-Modern software ships behind automated tests, canaries, and CI/CD gates.
+The problem maps cleanly to **production ML systems work**: shipping prompt/model/orchestration changes without measurable regression discipline is how silent failures reach users. Building **eval + statistics + artifacts + a dashboard** demonstrates systems thinking (boundaries, cost controls, reproducibility) rather than a single-model demo.
 
-Production LLM systems still commonly ship:
-- **prompt changes**
-- **model swaps**
-- **provider configuration changes**
-- **scorer / orchestration updates**
+### What production problem it solves
 
-…with insufficient regression discipline.
-
-The result is predictable:
-- **hallucinations** (especially in financial narratives)
-- **localization regressions** (tone, semantics, script correctness)
-- **compliance failures** (channel limits, forbidden claims)
-- degraded UX and reduced trust
-
-**The Guard positions LLM releases as “AI CI/CD.”** It measures baseline vs candidate behavior, attaches evidence, and blocks releases when risk is statistically and operationally meaningful.
+Production LLM stacks ship **prompt edits**, **model swaps**, and **scorer changes** with weak gates. Failures are often **silent** until compliance or users surface them: hallucinated numbers, localization drift (e.g. Telugu WhatsApp vs Push), channel compliance violations. The Guard makes those failures **measured**, **explained with evidence**, and **blockable** before rollout.
 
 ---
 
-### Key capabilities
+## Architecture Overview
 
-- **Eval orchestration**: dataset → provider → scoring → persistence → GO/NO-GO
-- **Provider abstraction**: OpenAI + Gemini with latency/usage/cost tracking
-- **Scorer pipelines**: explicit, composable scoring functions
-- **Safety controls (safe-by-default)**: demo mode, model allowlist, token caps, run-size caps, hard cost limits
-- **Statistical regression detection**: paired bootstrap + confidence intervals + p-values
-- **GO / NO-GO / INCONCLUSIVE release gating**
-- **Hallucination tracing**: unsupported claim detection with source-field traceability
-- **Telugu localization monitoring**: segment-aware comparisons (EN vs TE; WhatsApp vs Push)
-- **Cost vs quality benchmarking**: recommendations based on measured tradeoffs
-- **GitHub Actions release gate**: blocks merges on NO-GO and uploads artifacts
-- **Operational dashboard**: release overview, regression deep-dive, benchmarks, history/timeline
+### Monorepo structure
 
----
+| Path | Role |
+|------|------|
+| `apps/runner` | Eval CLI: dataset → provider → scorers → persistence. |
+| `apps/regression-runner` | Release gate CLI: baseline vs candidate → report JSON/Markdown. |
+| `apps/web` | Next.js dashboard (Prisma-backed panels when `DATABASE_URL` is set). |
+| `packages/contracts` | Shared types / Zod schemas. |
+| `packages/db` | Prisma schema, client wrapper (`@the-guard/db`). |
+| `packages/llm` | Provider registry, OpenAI/Gemini, **DemoDataProvider** (snapshot replay), pricing hooks. |
+| `packages/eval` | Tasks (`deal_copy_v1`, `support_reply_v1`), engine, scorers, persistence service. |
+| `packages/hallucination` | Deterministic claim extraction + verification vs input fields. |
+| `packages/regression` | Paired analysis, bootstrap, decision persistence. |
+| `packages/benchmark` | Cost vs quality rollups. |
+| `packages/reports` | Canonical export helpers for CI artifacts. |
 
-### Quickstart (safe demo, no token spend)
+### Request / evaluation lifecycle
 
-```bash
-pnpm -w install
-pnpm -w typecheck
-pnpm -w demo:seed
+1. Runner selects a **task** and **dataset slice** (size capped by env).
+2. For each case: build prompt → **TokenGuard** / **ModelPolicyService** / **CostGuard** → `generate()` → parse output.
+3. **Scorers** produce per-dimension scores; **hallucination** package may persist traces.
+4. Rows land in **Postgres via Prisma** (`eval_runs`, `eval_outputs`, `eval_scores`, `hallucination_traces`, …).
 
-# Demo replay mode (no live provider calls)
-ENABLE_DEMO_MODE=true pnpm -C apps/runner dev
+### Release gating flow
 
-# Dashboard
-pnpm -C apps/web dev
-```
-
-Demo video: https://www.loom.com/share/18ed99aaa644433d9355be78cfc5aca1
-
-Topics (GitHub): `llm-evals`, `ai-infrastructure`, `hallucination-detection`, `ai-observability`, `typescript`, `nextjs`
+1. Two persisted runs (**baseline** vs **candidate**) are compared in the regression package.
+2. Statistics: paired deltas, bootstrap **confidence intervals**, **p-values**, segment-aware severity.
+3. Decision: **GO**, **NO_GO**, or **INCONCLUSIVE** with reasons and worst examples.
+4. Artifacts exported as JSON/Markdown; dashboard surfaces verdicts and traces; CI workflow template under `.github/workflows/`.
 
 ---
 
-### Screenshots
+## Architecture Diagram
 
-**Release overview** — Latest eval runs (Prisma-backed) and release verdict with baseline vs candidate comparison.
-
-![Release overview: latest eval runs and GO/NO-GO verdict](docs/screenshots/s1.png)
-
-**Regression detail** — Falling examples with inputs, baseline vs candidate outputs, failed scorers, and hallucination traces.
-
-![Regression report: falling examples and traces](docs/screenshots/s2.png)
-
-**History** — Event timeline, regression/trend chart (Telugu quality, hallucination rate, regression frequency), and prompt lineage.
-
-![History: timeline, trends, and prompt lineage](docs/screenshots/s3.png)
-
-**Hallucination evidence** — Deterministic claim verification, hallucination rate delta, and trace preview payload.
-
-![Hallucination evidence and trace preview](docs/screenshots/s4.png)
-
----
-
-### Architecture overview
-
-High-level flow:
-
-```text
-dataset
-  → provider (OpenAI / Gemini)
-  → scorer pipeline (format / similarity / grounding)
-  → persistence (runs, outputs, scores, traces)
-  → regression analyzer (baseline vs candidate + statistics)
-  → release decision engine (GO/NO-GO/INCONCLUSIVE)
-  → reports (JSON/Markdown artifacts)
-  → dashboard + CI/CD gate
-```
-
-What each subsystem does (operationally):
-- **Provider layer** (`@the-guard/llm`): a narrow `generate()` API with structured metadata (latency, tokens, cost), retries/timeouts, and consistent errors.
-- **Eval engine** (`@the-guard/eval`): runs task definitions over datasets and persists outputs + per-scorer scores.
-- **Scorers** (`@the-guard/eval`): deterministic checks for format/compliance + pragmatic similarity/grounding scoring.
-- **Tasks & datasets** (`@the-guard/eval`):
-  - `deal_copy_v1` (WhatsApp/Push; EN/TE; fashion/grocery/electronics/travel; edge cases)
-  - `support_reply_v1` (refunds, delays, coupon failures, abuse, escalation; EN/TE)
-- **Hallucination tracing** (`@the-guard/hallucination`): extracts “claims” and verifies support against source input fields (deterministic-first).
-- **Regression engine** (`@the-guard/regression`): paired comparisons, confidence intervals, p-values, segment-aware severity classification, worst examples.
-- **Benchmarking** (`@the-guard/benchmark`): cost/latency/quality rollups across runs with recommendations.
-- **Reports** (`@the-guard/reports`): canonical artifact export for CI portability.
-
-High-level architecture diagram:
+### End-to-end data flow (datasets → dashboard)
 
 ```mermaid
 flowchart LR
-  subgraph DevAndCI["Developer machine / CI runner"]
-    Runner["apps/runner\nEval Runner CLI"]
-    RegressionRunner["apps/regression-runner\nRelease Gate CLI"]
-    Seed["scripts/seed-demo.ts\nSeed deterministic snapshots"]
+  subgraph Datasets["Datasets & tasks"]
+    DS["deal_copy_v1\nsupport_reply_v1"]
+  end
+
+  subgraph Providers["Providers"]
+    L["OpenAI / Gemini"]
+    DM["DemoDataProvider\n(snapshot replay)"]
+  end
+
+  subgraph Score["Scoring & traces"]
+    SC["Scorers\nformat / similarity / grounding"]
+    H["Hallucination traces\n(deterministic)"]
+  end
+
+  subgraph Persist["Persistence"]
+    DB[("Postgres\nPrisma")]
+  end
+
+  subgraph Regress["Regression engine"]
+    R["Paired bootstrap\nCI / p-values\nGO · NO_GO · INCONCLUSIVE"]
+  end
+
+  subgraph Surface["Surface area"]
+    REP["reports/*.json · *.md"]
+    WEB["Next.js dashboard"]
+  end
+
+  DS --> L
+  DS --> DM
+  L --> SC
+  DM --> SC
+  SC --> H
+  SC --> DB
+  H --> DB
+  DB --> R
+  R --> REP
+  R --> WEB
+  DB --> WEB
+```
+
+### Platform diagram (apps + packages + safeguards)
+
+```mermaid
+flowchart LR
+  subgraph DevAndCI["Developer / CI"]
+    Runner["apps/runner"]
+    RR["apps/regression-runner"]
+    Seed["scripts/seed-demo.ts"]
   end
 
   subgraph EvalPkg["packages/eval"]
-    Tasks["Tasks & datasets\n(deal_copy_v1, support_reply_v1)"]
-    Engine["Eval engine\n(dataset → provider → scoring)"]
-    Scorers["Scorers\n(format, similarity, grounding,\nempathy, policy grounding)"]
-    PersistSvc["Persistence service\n(ensure cases exist,\nupsert outputs + scores)"]
+    Tasks["Tasks & datasets"]
+    Engine["Eval engine"]
+    Scorers["Scorers"]
+    PersistSvc["Persistence service"]
   end
 
   subgraph LLMPkg["packages/llm"]
-    Registry["Provider registry\n(getProviderAsync)"]
-    DemoProvider["DemoDataProvider\n(snapshot-backed, no network)"]
-    LiveProviders["Live providers\n(OpenAI, Gemini)"]
-    CostEst["Pricing + cost estimation"]
+    Registry["Provider registry"]
+    DemoProvider["DemoDataProvider"]
+    LiveProviders["OpenAI · Gemini"]
   end
 
-  subgraph Safety["Runtime safeguards (safe-by-default)"]
-    Policy["ModelPolicyService\n(SAFE_MODELS allowlist)"]
-    TokenGuard["TokenGuard\n(MAX_INPUT/OUTPUT_TOKENS)"]
-    CostGuard["CostGuardService\n(MAX_RUN/MAX_DAILY USD)\n+ early abort telemetry"]
-    RunGuard["Run limits\n(MAX_CASES_PER_RUN,\nMAX_PARALLEL_EVALS)"]
+  subgraph Safety["Runtime safeguards"]
+    Policy["SAFE_MODELS"]
+    TokenGuard["MAX_INPUT / OUTPUT tokens"]
+    CostGuard["MAX_RUN / MAX_DAILY USD"]
+    RunGuard["MAX_CASES · MAX_PARALLEL"]
   end
 
-  subgraph DB["Postgres (Prisma)\npackages/db"]
-    Prisma["Prisma client"]
-    Tables["Tables:\n- eval_runs/eval_cases\n- eval_outputs/eval_scores\n- hallucination_traces\n- cost_guard_events / aborted_runs\n- projected_costs"]
+  subgraph DB["packages/db · Postgres"]
+    Prisma["Prisma"]
   end
 
-  subgraph Analysis["Analysis + artifacts"]
-    Hallucination["packages/hallucination\nClaim tracing (deterministic)"]
-    Regression["packages/regression\nBaseline vs candidate\n+ bootstrap stats"]
-    Benchmark["packages/benchmark\nCost vs quality vs latency"]
-    Reports["packages/reports\nMarkdown/JSON exports"]
-    CI[".github/workflows\nRelease gate"]
+  subgraph Analysis["Analysis"]
+    Hallucination["packages/hallucination"]
+    Regression["packages/regression"]
+    Benchmark["packages/benchmark"]
+    Reports["packages/reports"]
   end
 
-  subgraph Dashboard["apps/web (Next.js)"]
-    Overview["Release overview\nLive Prisma summary + latest runs\n+ deterministic demo panels"]
+  subgraph Dashboard["apps/web"]
+    UI["Dashboard UI"]
   end
 
   Seed --> DemoProvider
   Runner --> Tasks --> Engine --> Scorers
-  Engine --> Registry
-  Registry --> DemoProvider
-  Registry --> LiveProviders
-  Engine --> TokenGuard --> Registry
-  CostEst --> CostGuard --> Registry
+  Engine --> Registry --> DemoProvider
+  Engine --> Registry --> LiveProviders
   Policy --> Registry
+  TokenGuard --> Engine
+  CostGuard --> Engine
   RunGuard --> Engine
-  Engine --> PersistSvc --> Prisma --> Tables
+  Engine --> PersistSvc --> Prisma
   Engine --> Hallucination --> Prisma
-
   Prisma --> Regression
   Prisma --> Benchmark
-  RegressionRunner --> Regression --> Reports --> CI
-  Prisma --> Reports
-  Prisma --> Overview
+  RR --> Regression --> Reports
+  Prisma --> UI
 ```
 
 ---
 
-### System design (why explicit modularity)
+## Module Design Decisions & Tradeoffs
 
-This monorepo is intentionally **explicit and boring**:
-- production AI evaluation systems are hard to reason about when hidden behind frameworks
-- release gating needs deterministic behavior, auditability, and reproducible artifacts
-- boundaries make it easy to add providers (Claude), tasks, scorers, or new segments without “rewiring” the whole system
+### `packages/contracts`
 
-Monorepo packages follow a repository/service separation where it matters (persistence vs orchestration) while avoiding DI frameworks and “manager factories.”
+**Why:** Single source of truth for eval case shapes and task metadata across CLI, DB, and UI.  
+**Tradeoff:** Extra edits when schemas evolve; gain is compile-time safety and fewer drift bugs.
 
----
+### `packages/db` (Prisma + Postgres)
 
-### Statistical methodology (paired bootstrap, practical thresholds)
+**Why:** Normalized storage for runs, scores, traces, regression reports—fits transactional CI/CD and dashboard queries.  
+**Why Postgres / Supabase-compatible:** `DATABASE_URL` targets any Postgres; **Supabase** is a common managed host—same connection string pattern.  
+**Tradeoff:** Migrations and `prisma generate` in build pipelines; benefit is relational integrity and portable SQL.
 
-The Guard’s regression detection is engineered for production workflows:
+### `packages/llm`
 
-- We compare **baseline vs candidate** on the **same paired cases**.
-- We compute per-case deltas and use **paired bootstrap resampling** to estimate:
-  - \(95\%\) **confidence intervals** for mean deltas
-  - **two-sided p-values** for mean(delta) ≠ 0
-- We call a regression **statistically significant** when:
-  - CI excludes 0 **and** \(p < 0.05\)
+**Why:** One `generate()` surface with consistent latency/token/cost metadata and provider errors.  
+**Tradeoff:** Thin abstraction vs raw SDKs; keeps runner code readable and testable.
 
-This avoids overfitting to a single mean and provides *interpretable evidence*:
+### `packages/eval`
 
-> “Regression is statistically significant (p < 0.05).”
+**Why:** Tasks and scorers stay explicit (no magic registry). Datasets live as code for fast iteration; can later move to DB-backed cases.  
+**Tradeoff:** Larger repo churn when adding cases; clarity wins for reviewability.
 
-Practical engineering bias:
-- scoring is **deterministic where possible** (format compliance, traceability checks)
-- expensive LLM-as-judge approaches can be added later behind explicit flags, but are not required for baseline safety gating
+### `packages/hallucination`
 
----
+**Why:** Deterministic claim checks first—auditable for finance/compliance narratives without depending on an LLM judge in the default path.  
+**Tradeoff:** Heuristic patterns miss nuanced claims; structured for extension.
 
-### Hallucination tracing
+### `packages/regression`
 
-Hallucinations are release blockers when they affect financial/compliance narratives. The Guard tracks hallucinations as **traceable evidence**, not vibes:
+**Why:** Encapsulates statistical methodology and persistence of verdicts for CI and dashboard.  
+**Tradeoff:** Bootstrap cost is CPU, not tokens—acceptable for batch gates.
 
-- extracts claims (numeric/time/money patterns) from model output
-- maps claims to **source input fields**
-- marks claims as verified/unsupported with a confidence score
-- persists traces in `hallucination_traces` for regression reports and dashboards
+### `packages/benchmark`
 
-Example trace:
+**Why:** Operational model selection needs cost/latency/quality tradeoffs in one place.  
+**Tradeoff:** Recommendations are only as good as logged metrics.
 
-```json
-{
-  "claim": "GMV increased 38%",
-  "verified": false,
-  "confidence": 0.94,
-  "sourceFields": ["transactions.monthly_gmv"],
-  "explanation": "No supporting data found for 38% growth"
-}
-```
+### `packages/reports`
 
-Why this matters:
-- auditability for compliance and finance narratives
-- fewer “we think it hallucinated” debates in incidents
-- regression reports can surface the **exact claims** that triggered NO-GO
+**Why:** Stable Markdown/JSON shapes for GitHub Actions artifacts and offline review.
+
+### Deterministic replay mode (`ENABLE_DEMO_MODE`)
+
+**Why:** Repeatable demos, CI without API keys, and **zero token spend** during development and recording.  
+**Implementation:** `DemoDataProvider` reads [`reports/demo/demo-snapshots.json`](./reports/demo/demo-snapshots.json).
+
+### Dashboard mock fallback
+
+**Why:** `apps/web` can build and render when `DATABASE_URL` is unset (e.g. static hosting); live panels short-circuit with placeholders. With `DATABASE_URL`, Prisma-backed sections show real runs.
 
 ---
 
-### Telugu localization strategy
+## Evaluation Methodology
 
-Localization regressions are high-risk in production because they:
-- degrade trust faster than minor English phrasing drift
-- can change the meaning of compliance disclaimers
-- often cluster by **channel** (WhatsApp vs Push) and **tone**
-
-The Guard treats localization as a first-class axis:
-- segment-aware analysis (`language:te` vs `language:en`)
-- channel-aware slices (`channel:whatsapp` vs `channel:push`)
-- case tagging + reporting designed to make “Telugu WhatsApp regressions” visible within seconds
-
-The mock datasets and dashboards are intentionally aligned to **Indian commerce workflows** (Myntra/Swiggy/Ajio-style copy).
+| Stage | Description |
+|-------|-------------|
+| **Datasets** | Versioned task datasets (`deal_copy_v1`, `support_reply_v1`) with tagged segments (language, channel, policy edge cases). |
+| **Scoring** | Composable scorers (e.g. format compliance, semantic similarity, factual grounding); scores persisted per case. |
+| **Hallucination tracing** | Claims extracted from outputs; checked against supplied facts/source fields; persisted with confidence + explanation. |
+| **Regression analysis** | Paired baseline vs candidate on the **same cases**; mean deltas and segment-aware summaries. |
+| **Statistical testing** | Paired **bootstrap** resampling → **95% confidence intervals** for mean deltas and **two-sided p-values** (testing mean(delta) ≠ 0). |
+| **Practical significance** | Engineering thresholds supplement raw p-values (documented in package logic); extreme deltas escalate severity. |
+| **GO / NO_GO / INCONCLUSIVE** | Decision object combines statistical signals, worst examples, and hallucination/blocker rules; persists for audit. |
 
 ---
 
-### Benchmarking strategy (cost vs quality vs latency)
+## Eval Tasks
 
-Release safety isn’t only about “best model wins.” Production teams need measured tradeoffs:
-- **avg score** / **pass rate**
-- **avg latency**
-- **total cost**
-- **cost per successful eval**
+### `deal_copy_v1`
 
-The Guard’s benchmark analyzer produces a matrix + recommendations like:
-- “Use Gemini Flash for WhatsApp deal copy due to ~8x lower cost with only ~2% quality reduction.”
-- “Use GPT-4o for compliance-sensitive financial narratives.”
+- **Intent:** Marketing **deal copy** for commerce-style workflows.  
+- **Multilingual:** English and **Telugu** (`language: en | te`).  
+- **Channels:** **WhatsApp** (longer body) and **Push** (short line; char limits enforced in prompt).  
+- **Hallucination-prone cases:** Numeric/discount language, “guaranteed” style claims, date-bound offers—paired with **forbiddenClaims** in inputs.  
+- **Formatting edge cases:** Push length caps vs WhatsApp; audience variants (`new_users` / `existing_users`).  
+- **Verticals in data:** Fashion, grocery, electronics, travel-style deals (see `packages/eval/src/tasks/dealCopy/dataset.ts`).
 
-This turns model selection into an operational decision with evidence.
+### `support_reply_v1`
 
----
-
-### CI/CD release gating
-
-The Guard ships with a GitHub Actions gate:
-- run eval (or plug into your eval runner)
-- run regression analysis against a baseline
-- generate Markdown/JSON artifacts
-- **block merges on NO-GO**
-- upload `reports/` as CI artifacts
-- comment a PR summary (verdict + top regressions)
-
-Example NO-GO output (shape):
-
-```text
-THE GUARD RELEASE ANALYSIS
-
-Result:
-❌ NO-GO
-
-Reasons:
-- Telugu WhatsApp copy regressed by 8.2%
-- Factual grounding dropped 5.1%
-- 3 hallucinated claims detected
-
-Confidence:
-95%
-```
+- **Intent:** Customer **support replies** with policy-aware tone.  
+- **Multilingual:** English and Telugu.  
+- **Channels:** **chat** vs **email** (different length expectations).  
+- **Workflows:** Refunds (eligible / ineligible), **delayed delivery**, **coupon_failure**, damaged item, account issues.  
+- **Escalation:** Cases where `escalationRequired` forces handling paths suitable for scorer checks.  
+- **Tone edge cases:** neutral vs angry vs abusive customer simulations.
 
 ---
 
-### Dashboard & observability
+## How To Run
 
-The Next.js dashboard is designed to feel like internal infra tooling:
-- **Release overview**: “should we ship?” + evidence chain + segment impact
-- **Regression detail**: metrics → examples → traces → prompt diff → timeline
-- **Benchmark dashboard**: cost vs quality vs latency with segment filters
-- **History/timeline**: operational event stream + trends + prompt lineage
+**Prerequisites**
 
-This is “AI observability infrastructure,” not a marketing analytics UI.
-
----
-
-### Example failure scenario (end-to-end)
-
-Realistic production flow:
-
-1. **Prompt changed** (adds urgency language, weakens prohibitions)
-2. **Telugu WhatsApp quality regressed** (tone + semantics drift)
-3. **Hallucinations increased** (unsupported “GMV increased 38%” claims appear)
-4. Regression engine detects:
-   - significant Telugu quality drop (p < 0.05, CI excludes 0)
-   - significant hallucination rate increase
-5. **Release blocked automatically**
-
-Evidence chain (what the reviewer sees):
-- measurable deltas (baseline → candidate)
-- significance (p-values + CI)
-- failing examples with baseline/candidate outputs
-- hallucination traces with missing source-field evidence
-- prompt diff risk summary and impacted metrics
-
-Operational conclusion in <5 seconds:
-> “This release was automatically blocked because Telugu quality regressed and hallucinations increased.”
-
----
-
-### Tradeoffs & lessons learned
-
-- **Deterministic vs LLM-based scorers**: deterministic checks are cheaper and more auditable; LLM-judge is useful but can add instability and cost. The Guard defaults to deterministic-first.
-- **Eval instability**: model nondeterminism is real; paired comparisons + resampling help quantify uncertainty.
-- **Hallucination edge cases**: not all “claims” are strictly numeric; the trace engine starts with high-signal patterns and is designed to evolve.
-- **Localization complexity**: “Telugu correctness” isn’t just script detection; it includes tone and channel constraints. Segment-aware reporting is essential.
-- **Prompt overfitting risk**: optimizing prompts on a static dataset can overfit. Future work includes shadow traffic + drift detection.
-- **Observability UI tradeoffs**: the dashboard biases dense, explainable evidence over “pretty” visuals.
-- **Explicit architecture**: avoiding framework-heavy abstractions keeps investigation and incident response sane.
-
----
-
-### Future improvements (grounded)
-
-- shadow evals on live traffic slices (safe sampling + redaction)
-- drift detection (segment shifts over time)
-- human review workflows for borderline INCONCLUSIVE outcomes
-- annotation tooling + “gold” reference management
-- RLHF evaluation support (reward model comparisons)
-- adaptive thresholds by segment/task criticality
-- richer prompt lineage (multi-parent merges, rollout tracking)
-
----
-
-### Local development
-
-Install:
+- **Node.js** >= **20** (see root `package.json` `engines`).
+- **pnpm** via Corepack (repo pins `packageManager`).
 
 ```bash
-pnpm -w install
+corepack enable
+corepack prepare pnpm@10.33.3 --activate
 ```
 
-Typecheck:
+### 1. Clone and install
 
 ```bash
-pnpm -w typecheck
+git clone <YOUR_FORK_OR_REPO_URL> the-guard
+cd the-guard
+pnpm install
 ```
 
-Seed deterministic demo snapshots (safe demos, no live provider calls):
+### 2. Environment
+
+Copy the example file and edit (never commit secrets):
+
+```bash
+cp .env.example .env
+```
+
+For **`apps/runner`**, set at minimum `DATABASE_URL` (see [Environment Variables](#environment-variables)). Demo replay avoids API keys.
+
+### 3. Database & Prisma
+
+```bash
+pnpm -C packages/db exec prisma migrate dev
+pnpm -C packages/db exec prisma generate
+```
+
+If your package manager blocks postinstall scripts:
+
+```bash
+pnpm approve-builds
+pnpm -C packages/db exec prisma generate
+```
+
+### 4. Seed deterministic demo data (optional)
 
 ```bash
 pnpm -w demo:seed
 ```
 
-Run the eval runner (writes runs/outputs/scores/traces):
+### 5. Eval runner (demo replay, no API calls)
 
 ```bash
+set ENABLE_DEMO_MODE=true
 pnpm -C apps/runner dev
 ```
 
-Run the regression gate CLI:
+On Unix:
 
 ```bash
-pnpm regression:check --baseline <RUN_ID> --candidate <RUN_ID> --json reports/regression.json --markdown reports/regression.md
+ENABLE_DEMO_MODE=true pnpm -C apps/runner dev
 ```
 
-Run the web dashboard:
+### 6. Regression runner (demo report from disk)
 
 ```bash
+pnpm -C apps/regression-runner dev -- --baseline demo-baseline --candidate demo-candidate --markdown reports/tmp/regression.md --json reports/tmp/regression.json
+```
+
+(`reports/tmp/` is gitignored.) With `ENABLE_DEMO_MODE=true`, output reflects [`reports/demo/demo-regression-report.json`](./reports/demo/demo-regression-report.json).
+
+### 7. Web dashboard
+
+```bash
+pnpm -C packages/db exec prisma generate
+pnpm -C apps/web build
 pnpm -C apps/web dev
 ```
 
-Environment variables (safe-by-default):
-- `ENABLE_DEMO_MODE=true` (no live provider calls; uses snapshots)
-- `DEMO_SNAPSHOT_PATH` (default: `reports/demo/demo-snapshots.json`)
-- `SAFE_MODELS` (allowlist)
-- `MAX_INPUT_TOKENS`, `MAX_OUTPUT_TOKENS`
-- `MAX_CASES_PER_RUN`, `MAX_PARALLEL_EVALS`
-- `MAX_RUN_COST_USD`, `MAX_DAILY_COST_USD`
-- `THE_GUARD_MAX_RETRIES` (defaults to 0 in demo mode)
+Open `http://localhost:3000`. Set `DATABASE_URL` in `apps/web/.env.local` for live Prisma panels.
 
-Environment variables (DB + provider selection):
-- `DATABASE_URL` (required for `apps/runner` and Prisma-backed dashboard sections)
-- `THE_GUARD_PROVIDER` (`openai` | `google`)
-- `THE_GUARD_MODEL`
-- `OPENAI_API_KEY` / `GEMINI_API_KEY` (not needed in demo mode)
-
-Prisma migrations (first time):
+### 8. Validation (submission checks)
 
 ```bash
-pnpm -C packages/db exec prisma migrate dev
-pnpm -C packages/db prisma:generate
-```
-
-Dashboard note:
-- The Release Overview page keeps benchmark/regression narrative panels deterministic for demos, but the top summary and “Latest runs” read live data via Prisma when `DATABASE_URL` is set.
-
-Prisma note:
-If dependency build scripts are restricted in your environment, you may need:
-
-```bash
-pnpm approve-builds
-pnpm -C packages/db prisma:generate
+pnpm -w typecheck
+pnpm -C apps/web build
 ```
 
 ---
 
-### Project structure (monorepo)
+## Environment Variables
 
-```text
-apps/
-  runner/                 # eval execution CLI (dataset → provider → scoring → persistence)
-  regression-runner/      # regression gate CLI (baseline vs candidate)
-  web/                    # Next.js dashboard (overview, regressions, benchmarks, history)
-packages/
-  contracts/              # shared types + Zod schemas
-  db/                     # Prisma schema + Prisma client wrapper
-  llm/                    # provider abstraction (OpenAI, Gemini), retries, cost/usage tracking
-  eval/                   # eval engine + tasks + scorers + persistence service
-  hallucination/          # deterministic claim tracing + persistence
-  regression/             # regression analyzer + decision engine + prompt hashing/diffing + persistence
-  benchmark/              # cost-vs-quality analyzer + recommendations + persistence
-  reports/                # canonical JSON/Markdown export for CI artifacts
-.github/workflows/
-  the-guard-eval.yml       # CI release gate template
-```
+Documented below for **`apps/runner`** (Zod-validated in `apps/runner/src/env.ts`) unless noted.
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | Postgres connection string for Prisma. **Required** for runner persistence and for live dashboard reads. |
+| `ENABLE_DEMO_MODE` | `true` → use **snapshot replay** (`DemoDataProvider`); no live provider calls. Keeps demos and CI deterministic. |
+| `DEMO_SNAPSHOT_PATH` | JSON snapshot for demo mode (default relative to runner: `../../reports/demo/demo-snapshots.json`). |
+| `SAFE_MODELS` | Comma-separated **allowlist** of model ids permitted through policy checks. Prevents accidental calls to unreviewed models in shared environments. |
+| `MAX_RUN_COST_USD` | Hard ceiling for **estimated** cost per run; abort telemetry when exceeded. |
+| `MAX_DAILY_COST_USD` | Aggregate daily ceiling for cost guardrails in shared keys / CI. |
+| `MAX_CASES_PER_RUN` | Caps dataset slice size for runner (default `10`)—limits spend and wall time. |
+| `MAX_PARALLEL_EVALS` | Concurrency cap—reduces burst rate on provider TPM/RPM and DB write pressure. |
+| `MAX_INPUT_TOKENS` | Truncation bound on composed prompts before provider call. |
+| `MAX_OUTPUT_TOKENS` | Passed through as generation cap (`maxOutputTokens`). |
+| `THE_GUARD_MAX_RETRIES` | Provider retry budget (often **`0` in demo mode** to fail fast and avoid duplicate spend). |
+| `THE_GUARD_PROVIDER` | `openai` \| `google`. |
+| `THE_GUARD_MODEL` | Model id string (must align with `SAFE_MODELS` when policy enforced). |
+| `OPENAI_API_KEY` / `GEMINI_API_KEY` | Required for **live** calls; omit in demo replay. |
+| `THE_GUARD_TIMEOUT_MS` | Request timeout. |
+| `ENABLE_BENCHMARK_SWEEPS` | `true` enables sweep-style benchmark paths in tooling (default off—guards against accidental multi-model spend). |
+
+**`apps/regression-runner`** (`apps/regression-runner/src/env.ts`):
+
+| Variable | Purpose |
+|----------|---------|
+| `ENABLE_DEMO_MODE` | When `true`, reads `DEMO_REGRESSION_REPORT_PATH` instead of DB analysis. |
+| `DEMO_REGRESSION_REPORT_PATH` | Default `../../reports/demo/demo-regression-report.json` from package cwd. |
+
+See [`.env.example`](./.env.example) for copy-paste templates.
 
 ---
 
-### Screenshot placeholders
+## Eval Results
 
-![Release Overview](./docs/screenshots/release-overview.png)
-![Regression Detail](./docs/screenshots/regression-detail.png)
-![Hallucination Trace Panel](./docs/screenshots/hallucination-traces.png)
-![Benchmark Dashboard](./docs/screenshots/benchmark-dashboard.png)
-![Release Timeline](./docs/screenshots/timeline-view.png)
+Representative metrics from **checked-in demo snapshots** ([`reports/demo/demo-snapshots.json`](./reports/demo/demo-snapshots.json)). Costs are **estimated** from internal pricing metadata (`isEstimated: true`); latencies are **synthetic** for replay (`demo: true`).
+
+| Metric (per snapshot entry) | Example value | Notes |
+|-----------------------------|---------------|--------|
+| Reported latency | ~**120 ms** | Deterministic replay stand-in, not live wall time. |
+| Total tokens (sample) | **133–135** | Varies by prompt length (EN/te, WhatsApp vs push). |
+| Estimated USD / call | ~**$0.00029** | e.g. totalCost `0.000288` for `gpt-4o-mini`-style pricing metadata. |
+| Hallucination detections | Case-specific | Live runs persist rows in `hallucination_traces`; dashboard renders traces when DB populated. |
+| Regression verdict (demo JSON) | **GO** | [`demo-regression-report.json`](./reports/demo/demo-regression-report.json); reasons note deterministic demo seed. |
+
+**Live runs:** With real providers and DB, pass rates and blocker counts derive from persisted `eval_scores` and regression analysis—use the dashboard and exported reports for those sessions.
 
 ---
 
-### Final positioning
+## Cost Analysis
 
-The Guard is **AI deployment safety infrastructure** for production-grade LLM systems: it makes regressions measurable, decisions explainable, and releases blockable.
+| Category | Order-of-magnitude | Notes |
+|----------|---------------------|--------|
+| **Engineering time** | Single-digit person-weeks for core monorepo + dashboard + gates | Includes iteration on scoring, stats, and demo reliability—not billed as API usage. |
+| **Single eval run (live)** | **≤ `$MAX_RUN_COST_USD`** (default **$1.00**) before hard guard | Actual spend depends on model, cases run, and token lengths; demo replay ≈ **$0**. |
+| **Regression analysis** | Primarily **CPU** + DB reads | No mandatory extra provider calls beyond the two runs being compared. |
+| **Deterministic replay** | **$0** token cost | Recorded snapshots power Loom demos and CI without burning keys. |
 
+Replay mode intentionally avoided repeated OpenAI/Google calls during iteration, demo recording, and reviewer dry runs—this is the dominant cost control during development.
+
+---
+
+## What Broke First
+
+| Issue | What happened | Mitigation |
+|-------|----------------|------------|
+| **Turbopack + monorepo root** | With Vercel **Root Directory = `apps/web`**, Turbopack treated only `apps/web` as resolvable scope and failed on `@the-guard/db`. | Set `turbopack.root` + `outputFileTracingRoot` to monorepo root in `apps/web/next.config.ts`; build `@the-guard/db` before `next build`. |
+| **`@the-guard/db` compile order** | Package exports `./dist/index.js`; clean CI had no `dist` until `tsc` ran. | Runner build script builds DB first; `prisma generate` in db package for skipped postinstall. |
+| **Prisma on restricted installs** | Some environments ignore Prisma `postinstall`. | Document `pnpm approve-builds` + explicit `prisma generate` in db build. |
+| **Nested / stray git state** | Nested `.git` breaks submodules and reviewer clones. | Verified single root `.git`; no nested repos committed. |
+| **Mock vs live hybrid** | Dashboard must render without DB for static builds; with DB must show live rows. | Explicit `DATABASE_URL` checks in server components; deterministic panels remain for demos. |
+| **`turbo.json` validity** | Duplicate JSON objects in `turbo.json` broke tooling parsers (e.g. `JSON5` errors). | Merged to a single valid `turbo.json`. |
+
+---
+
+## What I Would Change With 2 More Weeks
+
+- **Async job queues** for long runs (SQS / Cloud Tasks) with idempotent run ids.  
+- **Deeper CI integration**: matrixed providers, artifact signing, baseline pinning per branch.  
+- **Canary rollout support**: shadow-traffic sampling hooks (safe, redacted).  
+- **Distributed eval execution**: shard cases across workers with shared progress in Postgres.  
+- **Streaming traces**: SSE/WebSocket for runner progress and partial scorer results.  
+- **Benchmark orchestration**: scheduled sweeps with budget envelopes across models.  
+- **Provider failover**: circuit breaker + secondary provider routing with explicit policy.  
+- **RBAC / auth** on dashboard and report APIs.  
+- **Alerting**: PagerDuty/Slack on NO_GO or cost guard breaches.
+
+---
+
+## Deployment Notes
+
+- **Local-first:** Primary workflows assume Postgres + CLI on a developer machine or CI runner.  
+- **Vercel (optional):** `apps/web` can deploy as a Next.js app with **Root Directory** `apps/web`; monorepo install from parent; `@the-guard/db` must be built before `next build`. Database required for live panels.  
+- **Runners:** `apps/runner` and `apps/regression-runner` are intended for **batch/CI** execution more than serverless long-running jobs without a queue.  
+- **Deterministic replay:** Used for reliable demos and zero-cost dry runs (`ENABLE_DEMO_MODE=true`).
+
+---
+
+## Future Work
+
+- Shadow evaluations on sampled production traffic (redaction + consent).  
+- Drift detection by segment over time.  
+- Human review workflow for **INCONCLUSIVE** borderline cases.  
+- Gold-reference management and annotator tooling.  
+- Richer prompt lineage (multi-parent merges, progressive rollouts).  
+- Segment-specific thresholds by task criticality.
+
+---
+
+## Screenshots
+
+Checked-in captures (dark UI):
+
+| Area | File |
+|------|------|
+| Release overview (eval runs + verdict) | [`docs/screenshots/s1.png`](./docs/screenshots/s1.png) |
+| Regression detail (falling examples) | [`docs/screenshots/s2.png`](./docs/screenshots/s2.png) |
+| History / timeline / trends | [`docs/screenshots/s3.png`](./docs/screenshots/s3.png) |
+| Hallucination evidence / traces | [`docs/screenshots/s4.png`](./docs/screenshots/s4.png) |
+
+Placeholder filenames for optional extra captures (see [`docs/screenshots/README.md`](./docs/screenshots/README.md)): `release-overview.png`, `regression-detail.png`, `hallucination-traces.png`, `benchmark-dashboard.png`, `timeline-view.png`.
+
+![Release overview](docs/screenshots/s1.png)
+
+![Regression detail](docs/screenshots/s2.png)
+
+![History / timeline](docs/screenshots/s3.png)
+
+![Hallucination evidence](docs/screenshots/s4.png)
+
+---
+
+## Submission materials
+
+Index: [`submission/README.md`](./submission/README.md)
+
+- [`submission/final-report.md`](./submission/final-report.md) — executive engineering summary.  
+- [`submission/architecture-summary.md`](./submission/architecture-summary.md) — condensed architecture.  
+- [`submission/cost-analysis.md`](./submission/cost-analysis.md) — provider usage estimates.  
+- [`submission/demo-links.md`](./submission/demo-links.md) — repo, Loom, screenshot index.
+
+---
+
+## License
+
+See [`LICENSE`](./LICENSE) (MIT).

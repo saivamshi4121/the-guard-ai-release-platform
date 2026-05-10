@@ -64,6 +64,9 @@ reports/*
 !reports/demo/**
 reports/tmp/
 
+# CLI mistakenly writing relative paths from apps/regression-runner cwd
+apps/regression-runner/reports/
+
 ###############################################################################
 # Logs
 ###############################################################################
@@ -87,4 +90,3 @@ pnpm-lock.yaml.*
 Thumbs.db
 .vscode/
 .idea/
-
