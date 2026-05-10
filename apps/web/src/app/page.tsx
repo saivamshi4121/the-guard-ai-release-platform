@@ -15,7 +15,21 @@ import { ChartCard } from "@/components/charts/ChartCard";
 import { DataTable, type Column } from "@/components/ui/DataTable";
 import { DeltaMetric as _DeltaMetric } from "@/components/ui/DeltaMetric";
 import { mockReleaseOverview } from "@/lib/mock/data";
+import { getLatestRegressionReport } from "@/lib/server/getLatestRegressionReport";
 import { prisma } from "@the-guard/db";
+
+const DEMO_REGRESSION_HREF = "/regressions/reg_001";
+
+function RegressionDetailLink(props: { href: string }) {
+  return (
+    <Link
+      href={props.href}
+      className="rounded-md border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-white/90 hover:bg-white/10 hover:border-white/25 transition-colors shrink-0"
+    >
+      Regression detail
+    </Link>
+  );
+}
 
 function fmtPct(n: number) {
   const pct = n * 100;
@@ -122,7 +136,20 @@ export default async function Home() {
   const overview = mockReleaseOverview; // keep deterministic release narrative + regressions/benchmarks
   const hasError = !overview;
 
-  const [live, latestRuns] = await Promise.all([loadLiveRunAggregates(), loadLatestRuns()]);
+  const [live, latestRuns, latestRegression] = await Promise.all([
+    loadLiveRunAggregates(),
+    loadLatestRuns(),
+    getLatestRegressionReport(),
+  ]);
+  const regressionDetailHref = latestRegression?.id ? `/regressions/${latestRegression.id}` : DEMO_REGRESSION_HREF;
+
+  if (hasError) {
+    return (
+      <AppShell title="Release overview" right={<RegressionDetailLink href={regressionDetailHref} />}>
+        <EmptyState title="Failed to load release overview" description="Check backend connectivity and regression persistence." />
+      </AppShell>
+    );
+  }
 
   const metricComparisons = overview.metricComparisons;
 
@@ -185,17 +212,18 @@ export default async function Home() {
     },
   ];
 
-  if (hasError) {
-    return (
-      <AppShell title="Release overview">
-        <EmptyState title="Failed to load release overview" description="Check backend connectivity and regression persistence." />
-      </AppShell>
-    );
-  }
-
   if (live.ok && live.totalRuns === 0) {
     return (
-      <AppShell title="Release overview">
+      <AppShell
+        title="Release overview"
+        right={
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <RegressionDetailLink href={regressionDetailHref} />
+            <SeverityPill severity={overview.decision.severity} />
+            <StatusBadge status={overview.decision.verdict} />
+          </div>
+        }
+      >
         <EmptyState
           title="No eval runs yet"
           description="Run the runner once to populate eval_runs/eval_cases/eval_outputs/eval_scores and hallucination traces."
@@ -213,7 +241,8 @@ export default async function Home() {
     <AppShell
       title="Release overview"
       right={
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <RegressionDetailLink href={regressionDetailHref} />
           <SeverityPill severity={overview.decision.severity} />
           <StatusBadge status={overview.decision.verdict} />
         </div>

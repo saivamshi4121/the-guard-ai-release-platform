@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/shell/AppShell";
 import { SeverityPill } from "@/components/ui/SeverityPill";
@@ -11,11 +12,70 @@ import { GitDiffBlock } from "@/components/ui/GitDiffBlock";
 import { HallucinationTracePanel } from "@/components/hallucination/HallucinationTracePanel";
 import { mockRegressionDetails } from "@/lib/mock/data";
 import type { RegressionDetailMock, RegressionFailingExample, RegressionMetricRow, SegmentBreakdownRow } from "@/lib/mock/types";
+import { getRegressionReportById, type PersistedRegressionReportRow } from "@/lib/server/getLatestRegressionReport";
+
+function PersistedRegressionReportView(props: { row: PersistedRegressionReportRow }) {
+  const { row } = props;
+  const sev: "INFO" | "WARN" | "BLOCKER" =
+    row.severity === "BLOCKER" || row.severity === "WARN" || row.severity === "INFO" ? row.severity : "INFO";
+
+  const verdictUpper = String(row.verdict).toUpperCase();
+  const verdictBadge: "GO" | "NO_GO" | "INCONCLUSIVE" =
+    verdictUpper === "GO" || verdictUpper === "NO_GO" || verdictUpper === "INCONCLUSIVE" ? verdictUpper : "INCONCLUSIVE";
+
+  const createdLabel =
+    row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at);
+
+  return (
+    <AppShell
+      title={`Regression ${row.id}`}
+      right={
+        <div className="flex items-center gap-2">
+          <SeverityPill severity={sev} />
+          <StatusBadge status={verdictBadge} />
+        </div>
+      }
+    >
+      <div className="space-y-6">
+        <section className="rounded-lg border border-[var(--border)] bg-[color:var(--panel)] p-4">
+          <div className="text-sm font-semibold">Regression report (persisted)</div>
+          <div className="mt-2 text-[11px] text-[var(--muted)] tabular-nums">{createdLabel}</div>
+          <div className="mt-3 text-[11px] text-white/70">
+            Baseline run: <span className="font-mono text-white/85">{row.baseline_run_id}</span>
+            <span className="mx-2 text-white/40">•</span>
+            Candidate run: <span className="font-mono text-white/85">{row.candidate_run_id}</span>
+          </div>
+          <p className="mt-3 text-sm text-white/80 leading-6">{row.summary}</p>
+          {row.prompt_diff_summary ? (
+            <div className="mt-3 rounded-md border border-white/10 bg-black/10 p-3 text-[12px] text-white/75">{row.prompt_diff_summary}</div>
+          ) : null}
+          <div className="mt-4 text-[11px] text-white/55">
+            Interactive mock deep-dive (deterministic demo):{" "}
+            <Link href="/regressions/reg_001" className="text-[color:var(--info)] hover:underline">
+              /regressions/reg_001
+            </Link>
+          </div>
+        </section>
+
+        <section className="rounded-lg border border-[var(--border)] bg-[color:var(--panel)] p-4">
+          <div className="text-sm font-semibold mb-2">comparison_json</div>
+          <JsonViewer value={row.comparison_json} />
+        </section>
+      </div>
+    </AppShell>
+  );
+}
 
 export default async function RegressionDetailPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
-  const report = mockRegressionDetails[id] as RegressionDetailMock | undefined;
-  if (!report) return notFound();
+  const mockReport = mockRegressionDetails[id] as RegressionDetailMock | undefined;
+  if (!mockReport) {
+    const persisted = await getRegressionReportById(id);
+    if (persisted) return <PersistedRegressionReportView row={persisted} />;
+    return notFound();
+  }
+
+  const report = mockReport;
 
   const metricColumns: Column<RegressionMetricRow>[] = [
     { key: "metric", header: "Metric", cell: (m) => <span className="text-white/85 font-medium">{m.label}</span> },
